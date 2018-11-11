@@ -11,6 +11,13 @@ public class SleepNStormConstructTabCompleter implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		List<String> ReturnNothing = new ArrayList<>();
+		if(sender.hasPermission("LTSleepNStorm.use") && cmd.getName().equalsIgnoreCase("sleepnstorm")) {
+			if(args.length == 1) {
+				List<String> Storm = new ArrayList<>();
+				Storm.add("version");
+				return Storm;
+			}
+		}
 		return ReturnNothing;
 	}
 }
