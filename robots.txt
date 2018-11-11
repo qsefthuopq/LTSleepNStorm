@@ -1,0 +1,27 @@
+User-agent: Googlebot
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: Googlebot-images
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: Adsbot-Google
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: Mediapartners-Google
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: Slurp
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: Bingbot
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
+
+User-agent: *
+Disallow: /LTSleepNStorm/api/
+Allow: /LTSleepNStorm/
