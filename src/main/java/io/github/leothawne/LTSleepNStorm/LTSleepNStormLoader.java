@@ -35,7 +35,7 @@ public class LTSleepNStormLoader extends JavaPlugin {
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormConstructTabCompleter());
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommands(this, myLogger));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminConstructTabCompleter());
-			registerEvents(this, new Listeners(this));
+			registerEvents(this, new Listeners(this, configuration));
 			new Version(this, myLogger).check();
 			myLogger.warning("A permissions plugin is required! Just make sure you are using one. Permissions nodes can be found at: https://leothawne.github.io/LTSleepNStorm/permissions.html");
 			for(Player player : this.getServer().getOnlinePlayers()) {
