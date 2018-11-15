@@ -13,9 +13,14 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
+import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.api.player.PlayerHotBar;
+
 public class Listeners implements Listener {
+	private LTSleepNStormLoader plugin;
 	private FileConfiguration configuration;
-	public Listeners(FileConfiguration configuration) {
+	public Listeners(LTSleepNStormLoader plugin, FileConfiguration configuration) {
+		this.plugin = plugin;
 		this.configuration = configuration;
 	}
 	@EventHandler
@@ -30,12 +35,21 @@ public class Listeners implements Listener {
 						if(Bukkit.getWorld(player.getLocation().getWorld().getUID()).getEnvironment() != Environment.NETHER && Bukkit.getWorld(player.getLocation().getWorld().getUID()).getEnvironment() != Environment.THE_END) {
 							if(Bukkit.getWorld(player.getLocation().getWorld().getUID()).getTime() > 12300 && Bukkit.getWorld(player.getLocation().getWorld().getUID()).getTime() < 23850) {
 								Bukkit.getWorld(player.getLocation().getWorld().getUID()).setTime(0);
+								for(Player players : plugin.getServer().getOnlinePlayers()) {
+									PlayerHotBar.sendMessage(players, "Night spent!");
+								}
 							}
 							if(Bukkit.getWorld(player.getLocation().getWorld().getUID()).hasStorm()) {
 								Bukkit.getWorld(player.getLocation().getWorld().getUID()).setStorm(false);
+								for(Player players : plugin.getServer().getOnlinePlayers()) {
+									PlayerHotBar.sendMessage(players, "Storm spent!");
+								}
 							}
 							if(Bukkit.getWorld(player.getLocation().getWorld().getUID()).isThundering()) {
 								Bukkit.getWorld(player.getLocation().getWorld().getUID()).setThundering(false);
+								for(Player players : plugin.getServer().getOnlinePlayers()) {
+									PlayerHotBar.sendMessage(players, "Storm spent!");
+								}
 							}
 						}
 					}
