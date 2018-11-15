@@ -16,16 +16,16 @@ public class Version {
 		this.plugin = plugin;
 		this.myLogger = myLogger;
 	}
-	public int configFileVersion = 1;
-	public String LTSNSVersion = "0.1.0";
-	public String LTSNSVersion_Date = "";
-	public String Minecraft_Version = "1.13.X";
-	public String Minecraft_Build = "1.13-R0.1-SNAPSHOT";
-	public String Java_Version = "8+";
-	public void version(CommandSender sender) {
+	public final int configFileVersion = 1;
+	public final String LTSNSVersion = "0.1.0";
+	public final String LTSNSVersion_Date = "";
+	public final String Minecraft_Version = "1.13.X";
+	public final String Minecraft_Build = "1.13-R0.1-SNAPSHOT";
+	public final String Java_Version = "8+";
+	public final void version(CommandSender sender) {
 		sender.sendMessage(ChatColor.AQUA + "LT Sleep N Storm " + ChatColor.YELLOW + "plugin " + ChatColor.GREEN + "" + LTSNSVersion + "" + ChatColor.YELLOW + " (" + ChatColor.GREEN + "" + LTSNSVersion_Date + "" + ChatColor.YELLOW + "), Minecraft " + ChatColor.GREEN + "" + Minecraft_Version +  "" + ChatColor.YELLOW + " (Java " + ChatColor.GREEN + "" + Java_Version + "" + ChatColor.YELLOW + ", build " + ChatColor.GREEN + "" + Minecraft_Build + "" + ChatColor.YELLOW + ").");
 	}
-	public void check() {
+	public final void check() {
 		try {
 			URLConnection allowedUrl = new URL("https://leothawne.github.io/LTItemMail/api/" + LTSNSVersion + "/plugin.html").openConnection();
 			allowedUrl.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
