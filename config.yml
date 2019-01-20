@@ -13,5 +13,6 @@ update:
 #List here worlds where LT Sleep N Storm must work (nether and the_end are disabled by default).
 worlds:
     - world
+
 #Do not change this under any circumstances!
 config-version: 1
