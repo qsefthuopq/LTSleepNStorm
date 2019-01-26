@@ -1,3 +1,12 @@
+no-permission: "Você não pode fazer isso! Você não tem permissão."
+world-day-tag: "Dia "
+world-day-reset: "O mundo regrediu no tempo!"
+world-night-passed: "% dormiu e a noite passou!"
+world-storm-passed: "% dormiu e a tempestade passou!"
+world-night-storm-passed: "% dormiu e ambas noite e tempestade passaram!"
+world-environment-error: "Você não pode fazer isso em um ambiente %!"
+player-error: "Você precisa ser um jogador para fazer isso!"
+player-tma: "Muitos argumentos inseridos!"
 
 #Não mude isso sob nenhuma circunstância!
 language-version: 1

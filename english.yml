@@ -1,3 +1,12 @@
+no-permission: "You can't do that! You don't have permission."
+world-day-tag: "Day "
+world-day-reset: "The world has regressed in time!"
+world-night-passed: "% slept and the night has passed!"
+world-storm-passed: "% slept and the storm has passed!"
+world-night-storm-passed: "% slept and both night and storm has passed!"
+world-environment-error: "You cannot do that on a % environment!"
+player-error: "You must be a player to do that!"
+player-tma: "Too many arguments!"
 
 #Do not change this under any circumstances!
 language-version: 1

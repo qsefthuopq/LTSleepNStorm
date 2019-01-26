@@ -1,5 +1,5 @@
 name: LTSleepNStorm
-description: A new way of sleeping in 1.13.
+description: A new sleeping system in Minecraft 1.13.x.
 version: 0.1.0
 api-version: 1.13
 load: STARTUP

@@ -6,10 +6,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
@@ -18,20 +21,23 @@ import io.github.leothawne.LTSleepNStorm.Version;
 public class SleepNStormAdminCommands implements CommandExecutor {
 	private LTSleepNStormLoader plugin;
 	private ConsoleLoader myLogger;
-	public SleepNStormAdminCommands(LTSleepNStormLoader plugin, ConsoleLoader myLogger) {
+	private FileConfiguration language;
+	public SleepNStormAdminCommands(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration language) {
 		this.plugin = plugin;
 		this.myLogger = myLogger;
+		this.language = language;
 	}
-	private String LTSNSVersion = new Version(plugin, myLogger).LTSNSVersion;
-	private String LTSNSVersion_Date = new Version(plugin, myLogger).LTSNSVersion_Date;
+	private final String LTSNSVersion = Version.getVersionNumber();
+	private final String LTSNSVersion_Date = Version.getVersionDate();
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(sender.hasPermission("LTSleepNStorm.use")) {
 			if(sender.hasPermission("LTSleepNStorm.admin")) {
 				if(args.length == 0) {
 					sender.sendMessage(ChatColor.AQUA + "=+=+=+= [LT Sleep N Storm :: Admin] =+=+=+=");
 					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Administration commands for LT Sleep N Storm.");
 					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin version " + ChatColor.AQUA + "- Check for new updates.");
+					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin timereset " + ChatColor.AQUA + "- Set the world you are standing in to day 0.");
 					sender.sendMessage(ChatColor.YELLOW + "You can also use "+ ChatColor.GREEN + "/sleepnstormadmin "+ ChatColor.YELLOW + "as "+ ChatColor.GREEN + "/snsa"+ ChatColor.YELLOW + ".");
 				} else if(args[0].equalsIgnoreCase("version")) {
 					if(args.length < 2) {
@@ -74,17 +80,35 @@ public class SleepNStormAdminCommands implements CommandExecutor {
 							sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Error while checking for new updates.");
 						}
 					} else {
-						sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Too many arguments!");
+						sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-tma"));
+					}
+				} else if(args[0].equalsIgnoreCase("timereset")) {
+					if(args.length < 2) {
+						if(sender instanceof Player) {
+							Player player = (Player) sender;
+							Bukkit.getWorld(player.getLocation().getWorld().getUID()).setFullTime(0);
+							String dayTag = language.getString("world-day-tag");
+							for(Player players : plugin.getServer().getOnlinePlayers()) {
+								if(players.getLocation().getWorld().equals(Bukkit.getWorld(player.getLocation().getWorld().getUID()))) {
+									players.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
+									players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+								}
+							}
+						} else {
+							sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-error"));
+						}
+					} else {
+						sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-tma"));
 					}
 				} else {
 					sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Invalid command! Type " + ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.YELLOW + "to see all available commands.");
 				}
 			} else {
-				sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "You can't do that! You don't have permission.");
+				sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("no-permission"));
 				myLogger.severe(sender.getName() + " does not have permission [LTSleepNStorm.admin].");
 			}
 		} else {
-			sender.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "You can't do that! You don't have permission.");
+			sender.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("no-permission"));
 			myLogger.severe(sender.getName() + " does not have permission [LTSleepNStorm.use].");
 		}
 		return true;

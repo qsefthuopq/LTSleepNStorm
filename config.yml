@@ -10,7 +10,7 @@ update:
     check: true
     #download: true # Work in progress feature!
 
-#List here worlds where LT Sleep N Storm must work (nether and the_end are disabled by default).
+#List here worlds where LT Sleep N Storm must work (NETHER and THE_END environments are disabled by default).
 worlds:
     - world
 

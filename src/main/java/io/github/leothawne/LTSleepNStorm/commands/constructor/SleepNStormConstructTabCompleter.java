@@ -9,7 +9,7 @@ import org.bukkit.command.TabCompleter;
 
 public class SleepNStormConstructTabCompleter implements TabCompleter {
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args){
+	public final List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		List<String> ReturnNothing = new ArrayList<>();
 		if(sender.hasPermission("LTSleepNStorm.use") && cmd.getName().equalsIgnoreCase("sleepnstorm")) {
 			if(args.length == 1) {

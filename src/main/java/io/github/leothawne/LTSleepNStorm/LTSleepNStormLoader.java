@@ -11,11 +11,12 @@ import io.github.leothawne.LTSleepNStorm.commands.SleepNStormAdminCommands;
 import io.github.leothawne.LTSleepNStorm.commands.SleepNStormCommands;
 import io.github.leothawne.LTSleepNStorm.commands.constructor.SleepNStormAdminConstructTabCompleter;
 import io.github.leothawne.LTSleepNStorm.commands.constructor.SleepNStormConstructTabCompleter;
-import io.github.leothawne.LTSleepNStorm.player.Listeners;
+import io.github.leothawne.LTSleepNStorm.events.AdminEvent;
+import io.github.leothawne.LTSleepNStorm.events.BedEvents;
 
 public class LTSleepNStormLoader extends JavaPlugin {
-	private ConsoleLoader myLogger = new ConsoleLoader(this);
-	public static void registerEvents(LTSleepNStormLoader plugin, Listener...listeners) {
+	private final ConsoleLoader myLogger = new ConsoleLoader(this);
+	public static final void registerEvents(LTSleepNStormLoader plugin, Listener...listeners) {
 		for(Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
 		}
@@ -23,23 +24,30 @@ public class LTSleepNStormLoader extends JavaPlugin {
 	private FileConfiguration configuration;
 	private FileConfiguration language;
 	@Override
-	public void onEnable() {
+	public final void onEnable() {
 		for(Player player : this.getServer().getOnlinePlayers()) {
 			player.sendMessage(ChatColor.AQUA + "[LTSleepNStorm] " + ChatColor.LIGHT_PURPLE + "Loading...");
 		}
 		myLogger.Hello();
+		new MetricsLoader(this, myLogger);
+		MetricsLoader.init();
 		myLogger.info("Loading...");
-		new ConfigurationLoader(this, myLogger).check();
-		configuration = new ConfigurationLoader(this, myLogger).load();
-		new LanguageLoader(this, myLogger, configuration).check();
-		language = new LanguageLoader(this, myLogger, configuration).load();
+		new ConfigurationLoader(this, myLogger);
+		ConfigurationLoader.check();
+		new ConfigurationLoader(this, myLogger);
+		configuration = ConfigurationLoader.load();
+		new LanguageLoader(this, myLogger, configuration);
+		LanguageLoader.check();
+		new LanguageLoader(this, myLogger, configuration);
+		language = LanguageLoader.load();
 		if(configuration.getBoolean("enable-plugin") == true) {
-			getCommand("sleepnstorm").setExecutor(new SleepNStormCommands(this, myLogger));
+			getCommand("sleepnstorm").setExecutor(new SleepNStormCommands(this, myLogger, language));
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormConstructTabCompleter());
-			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommands(this, myLogger));
+			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommands(this, myLogger, language));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminConstructTabCompleter());
-			registerEvents(this, new Listeners(this, configuration));
-			new Version(this, myLogger).check();
+			registerEvents(this, new AdminEvent(configuration), new BedEvents(this, configuration, language));
+			new Version(this, myLogger);
+			Version.check();
 			myLogger.warning("A permissions plugin is required! Just make sure you are using one. Permissions nodes can be found at: https://leothawne.github.io/LTSleepNStorm/permissions.html");
 			for(Player player : this.getServer().getOnlinePlayers()) {
 				player.sendMessage(ChatColor.AQUA + "[LTSleepNStorm] " + ChatColor.LIGHT_PURPLE + "Loaded!");
@@ -50,7 +58,7 @@ public class LTSleepNStormLoader extends JavaPlugin {
 		}
 	}
 	@Override
-	public void onDisable() {
+	public final void onDisable() {
 		for(Player player : this.getServer().getOnlinePlayers()) {
 			player.sendMessage(ChatColor.AQUA + "[LTSleepNStorm] " + ChatColor.LIGHT_PURPLE + "Unloading...");
 		}

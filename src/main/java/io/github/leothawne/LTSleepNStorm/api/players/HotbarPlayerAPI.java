@@ -1,4 +1,4 @@
-package io.github.leothawne.LTSleepNStorm.api.player;
+package io.github.leothawne.LTSleepNStorm.api.players;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PlayerHotBar {
+public class HotbarPlayerAPI {
     private static Class<?> CRAFTPLAYERCLASS;
     private static Class<?> PACKET_PLAYER_CHAT_CLASS;
     private static Class<?> ICHATCOMP;
