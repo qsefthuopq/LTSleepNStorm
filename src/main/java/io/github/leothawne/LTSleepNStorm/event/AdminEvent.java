@@ -1,4 +1,4 @@
-package io.github.leothawne.LTSleepNStorm.events;
+package io.github.leothawne.LTSleepNStorm.event;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

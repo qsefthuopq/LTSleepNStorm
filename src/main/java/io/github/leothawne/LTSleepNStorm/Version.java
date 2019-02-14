@@ -19,8 +19,8 @@ public class Version {
 	private static final int configFileVersion = 1;
 	private static final int english_languageFileVersion = 1;
 	private static final int portuguese_languageFileVersion = 1;
-	private static final String LTSNSVersion = "0.1.0";
-	private static final String LTSNSVersion_Date = "25/01/2019 (America/Sao_Paulo)";
+	private static final String LTSNSVersion = "0.2.0";
+	private static final String LTSNSVersion_Date = "99/99/9999 (America/Sao_Paulo)";
 	private static final String Minecraft_Version = "1.13.x";
 	private static final String Minecraft_Build = "1.13-R0.1-SNAPSHOT";
 	private static final String Java_Version = "8+";
@@ -67,7 +67,7 @@ public class Version {
 			if(sb.toString() != null) {
 				if(sb.toString().equalsIgnoreCase("disabled")) {
 					myLogger.severe("Hey you, stop right there! The version " + LTSNSVersion + " is not allowed anymore!");
-					myLogger.severe("Apologies, but this plugin will now be disabled! Download a newer version to play: https://dev.bukkit.org/projects/ltsleepnstorm");
+					myLogger.severe("Apologies, but this plugin will now be disabled! Download a newer version to play: https://dev.bukkit.org/projects/lt-sleep-n-storm");
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 				}
 			}

@@ -1,13 +1,14 @@
-package io.github.leothawne.LTSleepNStorm.commands;
+package io.github.leothawne.LTSleepNStorm.command;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,13 +19,15 @@ import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
 import io.github.leothawne.LTSleepNStorm.Version;
 
-public class SleepNStormAdminCommands implements CommandExecutor {
+public class SleepNStormAdminCommand implements CommandExecutor {
 	private LTSleepNStormLoader plugin;
 	private ConsoleLoader myLogger;
+	private FileConfiguration configuration;
 	private FileConfiguration language;
-	public SleepNStormAdminCommands(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration language) {
+	public SleepNStormAdminCommand(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
 		this.plugin = plugin;
 		this.myLogger = myLogger;
+		this.configuration = configuration;
 		this.language = language;
 	}
 	private final String LTSNSVersion = Version.getVersionNumber();
@@ -86,16 +89,73 @@ public class SleepNStormAdminCommands implements CommandExecutor {
 					if(args.length < 2) {
 						if(sender instanceof Player) {
 							Player player = (Player) sender;
-							Bukkit.getWorld(player.getLocation().getWorld().getUID()).setFullTime(0);
-							String dayTag = language.getString("world-day-tag");
-							for(Player players : plugin.getServer().getOnlinePlayers()) {
-								if(players.getLocation().getWorld().equals(Bukkit.getWorld(player.getLocation().getWorld().getUID()))) {
-									players.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
-									players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+							ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
+							if(worldList.contains(player.getLocation().getWorld().getName())) {
+								player.getLocation().getWorld().setFullTime(0);
+								String dayTag = language.getString("world-day-tag");
+								for(Player players : plugin.getServer().getOnlinePlayers()) {
+									if(players.getLocation().getWorld().equals(player.getLocation().getWorld())) {
+										players.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
+										players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+									}
+								}
+							} else {
+								player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("world-blocked"));
+							}
+						} else {
+							for(World world : plugin.getServer().getWorlds()) {
+								ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
+								if(worldList.contains(world.getName())) {
+									world.setFullTime(0);
+									sender.sendMessage(ChatColor.RED + "" + world.getName() + ": " + language.getString("world-day-reset"));
+									String dayTag = language.getString("world-day-tag");
+									for(Player player : plugin.getServer().getOnlinePlayers()) {
+										if(player.getLocation().getWorld().equals(world)) {
+											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
+											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+										}
+									}
+								}
+							}
+							
+						}
+					} else if(args.length < 3) {
+						if(args[1].equals("*")) {
+							for(World world : plugin.getServer().getWorlds()) {
+								ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
+								if(worldList.contains(world.getName())) {
+									world.setFullTime(0);
+									sender.sendMessage(ChatColor.RED + "" + world.getName() + ": " + language.getString("world-day-reset"));
+									String dayTag = language.getString("world-day-tag");
+									for(Player player : plugin.getServer().getOnlinePlayers()) {
+										if(player.getLocation().getWorld().equals(world)) {
+											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
+											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+										}
+									}
 								}
 							}
 						} else {
-							sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-error"));
+							World world = plugin.getServer().getWorld(args[1]);
+							if(world != null) {
+								ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
+								if(worldList.contains(world.getName())) {
+									world.setFullTime(0);
+									sender.sendMessage(ChatColor.RED + "" + world.getName() + ": " + language.getString("world-day-reset"));
+									String dayTag = language.getString("world-day-tag");
+									for(Player player : plugin.getServer().getOnlinePlayers()) {
+										if(player.getLocation().getWorld().equals(world)) {
+											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
+											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
+										}
+									}
+								} else {
+									sender.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("world-blocked"));
+								}
+							} else {
+								String[] notFoundTag = language.getString("world-not-found").split("%");
+								sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + notFoundTag[0] + "" + ChatColor.GREEN + "" + args[1] + "" + ChatColor.YELLOW + "" + notFoundTag[1]);
+							}
 						}
 					} else {
 						sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-tma"));

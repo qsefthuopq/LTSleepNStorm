@@ -1,4 +1,4 @@
-package io.github.leothawne.LTSleepNStorm.commands;
+package io.github.leothawne.LTSleepNStorm.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,11 +10,11 @@ import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
 import io.github.leothawne.LTSleepNStorm.Version;
 
-public class SleepNStormCommands implements CommandExecutor {
+public class SleepNStormCommand implements CommandExecutor {
 	private LTSleepNStormLoader plugin;
 	private ConsoleLoader myLogger;
 	private FileConfiguration language;
-	public SleepNStormCommands(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration language) {
+	public SleepNStormCommand(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration language) {
 		this.plugin = plugin;
 		this.myLogger = myLogger;
 		this.language = language;
