@@ -17,8 +17,8 @@ public class Version {
 		Version.myLogger = myLogger;
 	}
 	private static final int configFileVersion = 1;
-	private static final int english_languageFileVersion = 1;
-	private static final int portuguese_languageFileVersion = 1;
+	private static final int english_languageFileVersion = 2;
+	private static final int portuguese_languageFileVersion = 2;
 	private static final String LTSNSVersion = "0.2.0";
 	private static final String LTSNSVersion_Date = "99/99/9999 (America/Sao_Paulo)";
 	private static final String Minecraft_Version = "1.13.x";
