@@ -8,36 +8,24 @@ public class ConsoleLoader {
 	public ConsoleLoader(LTSleepNStormLoader plugin) {
 		this.plugin = plugin;
 	}
-	private final ConsoleCommandSender newLogger() {
+	private final ConsoleCommandSender getConsoleSender() {
 		return plugin.getServer().getConsoleSender();
 	}
-	private final String LTSNSVersion = Version.getVersionNumber();
-	private final String LTSNSVersion_Date = Version.getVersionDate();
-	private final String Minecraft_Version = Version.getMinecraftVersion();
-	private final String Java_Version = Version.getJavaVersion();
 	public final void Hello() {
-		newLogger().sendMessage(ChatColor.AQUA + " _  _____    ____ _    ______________    _        ____ _____ ____ ____ _    ");
-		newLogger().sendMessage(ChatColor.AQUA + "/ \\/__ __\\  / ___/ \\  /  __/  __/  __\\  / \\  /|  / ___/__ __/  _ /  __/ \\__/|" + ChatColor.LIGHT_PURPLE + "  V " + LTSNSVersion + " (Minecraft " + Minecraft_Version + ")");
-		newLogger().sendMessage(ChatColor.AQUA + "| |  / \\    |    | |  |  \\ |  \\ |  \\/|  | |\\ ||  |    \\ / \\ | / \\|  \\/| |\\/||" + ChatColor.LIGHT_PURPLE + "  Works with Java " + Java_Version);
-		newLogger().sendMessage(ChatColor.AQUA + "| |_/| |    \\___ | |_/|  /_|  /_|  __/  | | \\||  \\___ | | | | \\_/|    | |  ||" + ChatColor.LIGHT_PURPLE + "  Released on " + LTSNSVersion_Date);
-		newLogger().sendMessage(ChatColor.AQUA + "\\____\\_/    \\____\\____\\____\\____\\_/     \\_/  \\|  \\____/ \\_/ \\____\\_/\\_\\_/  \\|" + ChatColor.LIGHT_PURPLE + "  Twitter @leonappi_");
-		newLogger().sendMessage("");
-	}
-	public final void Goodbye() {
-		newLogger().sendMessage(ChatColor.AQUA + " _________ ____ ____ _______  ______");
-		newLogger().sendMessage(ChatColor.AQUA + "/  __/  _ /  _ /  _ /  _ \\  \\//  __/");
-		newLogger().sendMessage(ChatColor.AQUA + "| |  | / \\| / \\| | \\| | //\\  /|  \\  ");
-		newLogger().sendMessage(ChatColor.AQUA + "| |_/| \\_/| \\_/| |_/| |_\\\\/ / |  /_ ");
-		newLogger().sendMessage(ChatColor.AQUA + "\\____\\____\\____\\____\\____/_/  \\____\\");
-		newLogger().sendMessage("");
+		getConsoleSender().sendMessage(ChatColor.AQUA + " _   _______ _____ _   _  _____ ");
+		getConsoleSender().sendMessage(ChatColor.AQUA + "| | |__   __/ ____| \\ | |/ ____|");
+		getConsoleSender().sendMessage(ChatColor.AQUA + "| |    | | | (___ |  \\| | (___  " + ChatColor.WHITE + "  V: " + Version.getVersionNumber() + " (Minecraft: " + Version.getMinecraftVersion() + ")");
+		getConsoleSender().sendMessage(ChatColor.AQUA + "| |    | |  \\___ \\| . ` |\\___ \\" + ChatColor.WHITE + "  Requires Java: " + Version.getJavaVersion());
+		getConsoleSender().sendMessage(ChatColor.AQUA + "| |____| |  ____) | |\\  |____) |" + ChatColor.WHITE + "  Released on: " + Version.getVersionDate());
+		getConsoleSender().sendMessage(ChatColor.AQUA + "|______|_| |_____/|_| \\_|_____/ " + ChatColor.WHITE + "  My Twitter: @leonappi_");
 	}
 	public final void info(String message) {
-		newLogger().sendMessage(ChatColor.AQUA + "[LT Sleep N Storm " + ChatColor.WHITE + "INFO" + ChatColor.AQUA + "] " + ChatColor.LIGHT_PURPLE + "" + message);
+		getConsoleSender().sendMessage(ChatColor.WHITE + "[" + ChatColor.AQUA + "LTSNS " + ChatColor.GREEN + "I" + ChatColor.WHITE + "] " + message);
 	}
 	public final void warning(String message) {
-		newLogger().sendMessage(ChatColor.AQUA + "[LT Sleep N Storm " + ChatColor.YELLOW + "WARNING" + ChatColor.AQUA + "] " + ChatColor.LIGHT_PURPLE + "" + message);
+		getConsoleSender().sendMessage(ChatColor.WHITE + "[" + ChatColor.AQUA + "LTSNS " + ChatColor.YELLOW + "W" + ChatColor.WHITE + "] " + message);
 	}
 	public final void severe(String message) {
-		newLogger().sendMessage(ChatColor.AQUA + "[LT Sleep N Storm " + ChatColor.RED + "ERROR" + ChatColor.AQUA + "] " + ChatColor.LIGHT_PURPLE + "" + message);
+		getConsoleSender().sendMessage(ChatColor.WHITE + "[" + ChatColor.AQUA + "LTSNS " + ChatColor.RED + "E" + ChatColor.WHITE + "] " + message);
 	}
 }

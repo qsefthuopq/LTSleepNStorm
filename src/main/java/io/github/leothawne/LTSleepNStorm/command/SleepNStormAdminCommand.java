@@ -30,8 +30,6 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 		this.configuration = configuration;
 		this.language = language;
 	}
-	private final String LTSNSVersion = Version.getVersionNumber();
-	private final String LTSNSVersion_Date = Version.getVersionDate();
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(sender.hasPermission("LTSleepNStorm.use")) {
@@ -55,7 +53,7 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 								sb.append(line);
 							}
 							if(sb.toString() != null) {
-								String[] LocalVersion = LTSNSVersion.split("\\.");
+								String[] LocalVersion = Version.getVersionNumber().split("\\.");
 								int Local_VersionNumber1 = Integer.parseInt(LocalVersion[0]);
 								int Local_VersionNumber2 = Integer.parseInt(LocalVersion[1]);
 								int Local_VersionNumber3 = Integer.parseInt(LocalVersion[2]);
@@ -64,7 +62,7 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 								int Server2_VersionNumber1 = Integer.parseInt(Server2[0]);
 								int Server2_VersionNumber2 = Integer.parseInt(Server2[1]);
 								int Server2_VersionNumber3 = Integer.parseInt(Server2[2]);
-								sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Running: " + ChatColor.GREEN + "" + LTSNSVersion + "" + ChatColor.YELLOW + " (Released on " + ChatColor.GREEN + "" + LTSNSVersion_Date + "" + ChatColor.YELLOW + ")");
+								sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Running: " + ChatColor.GREEN + "" + Version.getVersionNumber() + "" + ChatColor.YELLOW + " (Released on " + ChatColor.GREEN + "" + Version.getVersionDate() + "" + ChatColor.YELLOW + ")");
 								String updateMessage = ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "A newer version is available: " + ChatColor.GREEN + "" + Server1[0] + "" + ChatColor.YELLOW + " (released on " + ChatColor.GREEN + "" + Server1[1] + "" + ChatColor.YELLOW + ")";
 								if(Server2_VersionNumber1 > Local_VersionNumber1) {
 									sender.sendMessage(updateMessage);

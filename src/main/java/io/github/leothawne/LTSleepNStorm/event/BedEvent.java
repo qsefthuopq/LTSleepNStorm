@@ -46,17 +46,12 @@ public class BedEvent implements Listener {
 									player.getLocation().getWorld().setStorm(false);
 									stormPassed = true;
 								}
-								if(player.getLocation().getWorld().isThundering() == true){
-									player.getLocation().getWorld().setThundering(false);
+							} else {
+								if(player.getLocation().getWorld().hasStorm() == true) {
+									player.getLocation().getWorld().setStorm(false);
 									stormPassed = true;
 								}
-							}
-							if(player.getLocation().getWorld().hasStorm() == true && player.getLocation().getWorld().isThundering() == true) {
-								player.getLocation().getWorld().setStorm(false);
-								player.getLocation().getWorld().setThundering(false);
-								stormPassed = true;
-							}
-							int dayCount = (int) player.getLocation().getWorld().getFullTime() / 24000;
+							}int dayCount = (int) player.getLocation().getWorld().getFullTime() / 24000;
 							String dayTag = language.getString("world-day-tag");
 							String[] nightTag = language.getString("world-night-passed").split("%");
 							String[] stormTag = language.getString("world-storm-passed").split("%");
@@ -69,6 +64,7 @@ public class BedEvent implements Listener {
 										bedEffect(block);
 									} else if(nightPassed == false && stormPassed == true) {
 										players.sendMessage(ChatColor.AQUA + "" + stormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + stormTag[1]);
+										bedEffect(block);
 									} else if(nightPassed == true && stormPassed == true) {
 										players.sendMessage(ChatColor.AQUA + "" + nightStormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightStormTag[1]);
 										players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);

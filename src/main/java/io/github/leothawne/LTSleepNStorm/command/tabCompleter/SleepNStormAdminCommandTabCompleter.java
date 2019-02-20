@@ -9,9 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import com.google.common.collect.ImmutableList;
 
-public class SleepNStormAdminCommandTabCompleter implements TabCompleter {
+import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.api.utility.TabCompleterAPI;
+
+public class SleepNStormAdminCommandTabCompleter extends TabCompleterAPI implements TabCompleter {
 	private LTSleepNStormLoader plugin;
 	private FileConfiguration configuration;
 	public SleepNStormAdminCommandTabCompleter(LTSleepNStormLoader plugin, FileConfiguration configuration) {
@@ -23,20 +26,19 @@ public class SleepNStormAdminCommandTabCompleter implements TabCompleter {
 		List<String> ReturnNothing = new ArrayList<>();
 		if(sender.hasPermission("LTSleepNStorm.use") && sender.hasPermission("LTSleepNStorm.admin") && cmd.getName().equalsIgnoreCase("sleepnstormadmin")) {
 			if(args.length == 1) {
-				List<String> StormAdmin = new ArrayList<>();
-				StormAdmin.add("version");
-				StormAdmin.add("timereset");
-				return StormAdmin;
+				ImmutableList<String> StormAdmin = ImmutableList.of("version", "timereset");
+				return partial(args[0], StormAdmin);
 			}
 			if(args.length == 2 && args[0].equalsIgnoreCase("timereset")) {
-				List<String> StormAdmin = new ArrayList<>();
+				ArrayList<String> StormAdmin = new ArrayList<String>();
 				for(World world : plugin.getServer().getWorlds()) {
 					ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
 					if(worldList.contains(world.getName())) {
 						StormAdmin.add(world.getName());
 					}
 				}
-				return StormAdmin;
+				ImmutableList<String> StormAdminNew = ImmutableList.copyOf(StormAdmin);
+				return partial(args[1], StormAdminNew);
 			}
 		}
 		return ReturnNothing;
