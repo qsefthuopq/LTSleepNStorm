@@ -31,6 +31,7 @@ public class SleepNStormAdminCommandTabCompleter extends TabCompleterAPI impleme
 			}
 			if(args.length == 2 && args[0].equalsIgnoreCase("timereset")) {
 				ArrayList<String> StormAdmin = new ArrayList<String>();
+				StormAdmin.add("*");
 				for(World world : plugin.getServer().getWorlds()) {
 					ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
 					if(worldList.contains(world.getName())) {
