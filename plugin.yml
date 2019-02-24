@@ -17,6 +17,9 @@ commands:
         description: All admin commands for LT Sleep N Storm.
         aliases: [snsa]
         usage: /<command>
+    sleep:
+        description: Makes the player sleep.
+        usage: /<command>
 permissions:
     LTSleepNStorm.use:
         description: Allow players to use LTSNS commands.
