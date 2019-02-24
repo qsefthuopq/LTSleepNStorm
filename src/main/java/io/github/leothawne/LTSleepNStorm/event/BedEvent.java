@@ -16,11 +16,6 @@
  */
 package io.github.leothawne.LTSleepNStorm.event;
 
-import java.util.ArrayList;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -31,6 +26,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.api.utility.NearbyMonstersAPI;
+import io.github.leothawne.LTSleepNStorm.api.utility.SleepAPI;
 
 public class BedEvent implements Listener {
 	private static LTSleepNStormLoader plugin;
@@ -41,12 +38,7 @@ public class BedEvent implements Listener {
 		BedEvent.configuration = configuration;
 		BedEvent.language = language;
 	}
-	public static final void bedEffect(Block bed) {
-		plugin.getServer().getWorld(bed.getLocation().getWorld().getName()).strikeLightningEffect(bed.getLocation());
-		for(Player player : plugin.getServer().getOnlinePlayers()) {
-			player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1F, 1F);
-		}
-	}
+	
 	@EventHandler
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -54,50 +46,8 @@ public class BedEvent implements Listener {
 			if(event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking() == false){
 				Block block = event.getClickedBlock();
 				if(block.getType().toString().contains("_BED")) {
-					ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
-					if(worldList.contains(player.getLocation().getWorld().getName())) {
-						if(player.getLocation().getWorld().getEnvironment() != Environment.NETHER && player.getLocation().getWorld().getEnvironment() != Environment.THE_END) {
-							boolean stormPassed = false;
-							boolean nightPassed = false;
-							if(player.getLocation().getWorld().getTime() > 12300 && player.getLocation().getWorld().getTime() < 23850) {
-								player.getLocation().getWorld().setTime(0);
-								nightPassed = true;
-								if(player.getLocation().getWorld().hasStorm() == true){
-									player.getLocation().getWorld().setStorm(false);
-									stormPassed = true;
-								}
-							} else {
-								if(player.getLocation().getWorld().hasStorm() == true) {
-									player.getLocation().getWorld().setStorm(false);
-									stormPassed = true;
-								}
-							}int dayCount = (int) player.getLocation().getWorld().getFullTime() / 24000;
-							String dayTag = language.getString("world-day-tag");
-							String[] nightTag = language.getString("world-night-passed").split("%");
-							String[] stormTag = language.getString("world-storm-passed").split("%");
-							String[] nightStormTag = language.getString("world-night-storm-passed").split("%");
-							for(Player players : plugin.getServer().getOnlinePlayers()) {
-								if(players.getLocation().getWorld().equals(player.getLocation().getWorld())) {
-									if(nightPassed == true && stormPassed == false) {
-										players.sendMessage(ChatColor.AQUA + "" + nightTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightTag[1]);
-										players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);
-										bedEffect(block);
-									} else if(nightPassed == false && stormPassed == true) {
-										players.sendMessage(ChatColor.AQUA + "" + stormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + stormTag[1]);
-										bedEffect(block);
-									} else if(nightPassed == true && stormPassed == true) {
-										players.sendMessage(ChatColor.AQUA + "" + nightStormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightStormTag[1]);
-										players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);
-										bedEffect(block);
-									}
-								}
-							}
-							
-						} else {
-							String environment = player.getLocation().getWorld().getEnvironment().toString();
-							String[] envTag = language.getString("world-environment-error").split("%");
-							player.sendMessage(ChatColor.RED +  "" + envTag[0] + "" + ChatColor.GOLD + "" + environment + "" + ChatColor.RED + "" + envTag[1]);
-						}
+					if(NearbyMonstersAPI.isSafe(player) == true) {
+						SleepAPI.sleep(plugin, configuration, language, block, player);
 					}
 				}
 			}
