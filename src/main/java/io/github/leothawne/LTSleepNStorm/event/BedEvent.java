@@ -19,6 +19,7 @@ package io.github.leothawne.LTSleepNStorm.event;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,6 +43,9 @@ public class BedEvent implements Listener {
 	}
 	public static final void bedEffect(Block bed) {
 		plugin.getServer().getWorld(bed.getLocation().getWorld().getName()).strikeLightningEffect(bed.getLocation());
+		for(Player player : plugin.getServer().getOnlinePlayers()) {
+			player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1F, 1F);
+		}
 	}
 	@EventHandler
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
