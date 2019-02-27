@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,16 +24,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 import io.github.leothawne.LTSleepNStorm.api.utility.NearbyMonstersAPI;
 import io.github.leothawne.LTSleepNStorm.api.utility.SleepAPI;
 
 public class SleepCommand implements CommandExecutor {
-	private static LTSleepNStormLoader plugin;
+	private static LTSleepNStorm plugin;
 	private static ConsoleLoader myLogger;
 	private static FileConfiguration configuration;
 	private static FileConfiguration language;
-	public SleepCommand(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
+	public SleepCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
 		SleepCommand.plugin = plugin;
 		SleepCommand.myLogger = myLogger;
 		SleepCommand.configuration = configuration;

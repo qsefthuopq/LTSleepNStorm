@@ -6,7 +6,7 @@ load: STARTUP
 author: [leothawne]
 website: https://leothawne.github.io/LTSleepNStorm/
 url: https://leothawne.github.io/LTSleepNStorm/
-main: io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader
+main: io.github.leothawne.LTSleepNStorm.LTSleepNStorm
 database: false
 commands:
     sleepnstorm:
@@ -18,7 +18,7 @@ commands:
         aliases: [snsa]
         usage: /<command>
     sleep:
-        description: Makes the player sleep.
+        description: A quick command to allow players to sleep without a bed.
         usage: /<command>
 permissions:
     LTSleepNStorm.use:

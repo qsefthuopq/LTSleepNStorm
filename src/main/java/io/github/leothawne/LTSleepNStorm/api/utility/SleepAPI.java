@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,11 +24,13 @@ import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class SleepAPI {
-	public static final void sleep(LTSleepNStormLoader plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player) {
+	public static final void sleep(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player) {
 		ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
 		if(worldList.contains(player.getLocation().getWorld().getName())) {
 			if(player.getLocation().getWorld().getEnvironment() != Environment.NETHER && player.getLocation().getWorld().getEnvironment() != Environment.THE_END) {
@@ -57,14 +59,14 @@ public class SleepAPI {
 						if(nightPassed == true && stormPassed == false) {
 							players.sendMessage(ChatColor.AQUA + "" + nightTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightTag[1]);
 							players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);
-							runEffect(plugin, block);
+							runEffect(plugin, block, player);
 						} else if(nightPassed == false && stormPassed == true) {
 							players.sendMessage(ChatColor.AQUA + "" + stormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + stormTag[1]);
-							runEffect(plugin, block);
+							runEffect(plugin, block, player);
 						} else if(nightPassed == true && stormPassed == true) {
 							players.sendMessage(ChatColor.AQUA + "" + nightStormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightStormTag[1]);
 							players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);
-							runEffect(plugin, block);
+							runEffect(plugin, block, player);
 						}
 					}
 				}
@@ -76,12 +78,15 @@ public class SleepAPI {
 			}
 		}
 	}
-	public static final void runEffect(LTSleepNStormLoader plugin, Block bed) {
+	private static final void runEffect(LTSleepNStorm plugin, Block bed, Player player) {
 		if(bed != null) {
 			plugin.getServer().getWorld(bed.getLocation().getWorld().getName()).strikeLightningEffect(bed.getLocation());
-			for(Player player : plugin.getServer().getOnlinePlayers()) {
-				player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1F, 1F);
-			}
+		} else {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 10, 1));
+		}
+		for(Player players : plugin.getServer().getOnlinePlayers()) {
+			players.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1F, 1F);
 		}
 	}
 }
