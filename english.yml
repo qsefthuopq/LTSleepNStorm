@@ -8,6 +8,8 @@ world-storm-passed: "% slept and the storm has passed."
 world-night-storm-passed: "% slept and both night and storm has passed."
 world-environment-error: "You cannot do that on a % environment!"
 player-tma: "Too many arguments."
+player-error: "You must be a player to do that!"
+nearby-monsters: "You may not rest now, there are monsters nearby."
 
 #Do not change this under any circumstances!
 language-version: 2

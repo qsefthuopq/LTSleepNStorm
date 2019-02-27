@@ -8,6 +8,8 @@ world-storm-passed: "% dormiu e a tempestade passou."
 world-night-storm-passed: "% dormiu e ambas noite e tempestade passaram."
 world-environment-error: "Você não pode fazer isso em um ambiente %!"
 player-tma: "Muitos argumentos inseridos."
+player-error: "Você deve ser um jogador para fazer isso!"
+nearby-monsters: "Você não pode dormir agora, há monstros por perto."
 
 #Não mude isso sob nenhuma circunstância!
 language-version: 2
