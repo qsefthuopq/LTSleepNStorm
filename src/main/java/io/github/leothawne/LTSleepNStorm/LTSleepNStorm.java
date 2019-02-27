@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.leothawne.LTSleepNStorm.api.LTSleepNStormAPI;
+import io.github.leothawne.LTSleepNStorm.api.bStats.MetricsAPI;
 import io.github.leothawne.LTSleepNStorm.command.SleepCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormAdminCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormCommand;
@@ -29,45 +31,67 @@ import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormCommand
 import io.github.leothawne.LTSleepNStorm.event.AdminEvent;
 import io.github.leothawne.LTSleepNStorm.event.BedEvent;
 
-public class LTSleepNStormLoader extends JavaPlugin {
+/**
+ * Main class.
+ * 
+ * @author leothawne
+ *
+ */
+public class LTSleepNStorm extends JavaPlugin {
 	private final ConsoleLoader myLogger = new ConsoleLoader(this);
-	public final void registerEvents(Listener...listeners) {
+	private final void registerEvents(Listener...listeners) {
 		for(Listener listener : listeners) {
 			Bukkit.getServer().getPluginManager().registerEvents(listener, this);
 		}
 	}
-	private FileConfiguration configuration;
-	private FileConfiguration language;
+	private static FileConfiguration configuration;
+	private static FileConfiguration language;
+	private static MetricsAPI metrics;
+	/**
+	 * 
+	 * @deprecated Not for public use.
+	 * 
+	 */
 	@Override
 	public final void onEnable() {
 		myLogger.Hello();
 		myLogger.info("Loading...");
-		new ConfigurationLoader(this, myLogger);
-		ConfigurationLoader.check();
-		new ConfigurationLoader(this, myLogger);
-		configuration = ConfigurationLoader.load();
+		ConfigurationLoader.check(this, myLogger);
+		configuration = ConfigurationLoader.load(this, myLogger);
 		if(configuration.getBoolean("enable-plugin") == true) {
-			new MetricsLoader(this, myLogger);
-			MetricsLoader.init();
-			new LanguageLoader(this, myLogger, configuration);
-			LanguageLoader.check();
-			new LanguageLoader(this, myLogger, configuration);
-			language = LanguageLoader.load();
-			getCommand("sleepnstorm").setExecutor(new SleepNStormCommand(this, myLogger, language));
+			MetricsLoader.init(this, myLogger, metrics);
+			LanguageLoader.check(this, myLogger, configuration);
+			language = LanguageLoader.load(this, myLogger, configuration);
+			getCommand("sleepnstorm").setExecutor(new SleepNStormCommand(myLogger, language));
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormCommandTabCompleter());
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
 			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language));
 			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language));
-			new Version(this, myLogger);
-			Version.check();
+			Version.check(this, myLogger);
 		} else {
-			myLogger.severe("You manually choose to disable this plugin.");
+			myLogger.severe("You choose to disable this plugin.");
 			getServer().getPluginManager().disablePlugin(this);
 		}
 	}
+	/**
+	 * 
+	 * @deprecated Not for public use.
+	 * 
+	 */
 	@Override
 	public final void onDisable() {
 		myLogger.info("Unloading...");
+	}
+	/**
+	 * 
+	 * Method used to cast the API class.
+	 * 
+	 * @return The API class.
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	public final LTSleepNStormAPI getAPI() {
+		return new LTSleepNStormAPI(this, myLogger, configuration, language, metrics);
 	}
 }
