@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,15 +23,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
 import io.github.leothawne.LTSleepNStorm.Version;
 
 public class SleepNStormCommand implements CommandExecutor {
-	private LTSleepNStormLoader plugin;
 	private ConsoleLoader myLogger;
 	private FileConfiguration language;
-	public SleepNStormCommand(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration language) {
-		this.plugin = plugin;
+	public SleepNStormCommand(ConsoleLoader myLogger, FileConfiguration language) {
 		this.myLogger = myLogger;
 		this.language = language;
 	}
@@ -40,13 +37,12 @@ public class SleepNStormCommand implements CommandExecutor {
 		if(sender.hasPermission("LTSleepNStorm.use")) {
 			if(args.length == 0) {
 				sender.sendMessage(ChatColor.AQUA + "=+=+=+= [LT Sleep N Storm] =+=+=+=");
-				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm " + ChatColor.AQUA + "- Show all commands for Sleep N Storm.");
-				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm version " + ChatColor.AQUA + "- Show plugin version.");
-				sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Administration commands for Sleep N Storm.");
+				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm " + ChatColor.AQUA + "- Shows all commands for LT Sleep N Storm.");
+				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm version " + ChatColor.AQUA + "- Shows the plugin version.");
+				sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Shows the administration commands for LT Sleep N Storm.");
 				sender.sendMessage(ChatColor.YELLOW + "You can also use "+ ChatColor.GREEN + "/sleepnstorm "+ ChatColor.YELLOW + "as "+ ChatColor.GREEN + "/sns"+ ChatColor.YELLOW + ".");
 			} else if(args[0].equalsIgnoreCase("version")) {
 				if(args.length < 2) {
-					new Version(plugin, myLogger);
 					Version.version(sender);
 				} else {
 					sender.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-tma"));

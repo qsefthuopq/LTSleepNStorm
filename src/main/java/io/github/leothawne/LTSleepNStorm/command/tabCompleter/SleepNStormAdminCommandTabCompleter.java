@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,20 +27,20 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import com.google.common.collect.ImmutableList;
 
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 import io.github.leothawne.LTSleepNStorm.api.utility.TabCompleterAPI;
 
 public class SleepNStormAdminCommandTabCompleter extends TabCompleterAPI implements TabCompleter {
-	private LTSleepNStormLoader plugin;
+	private LTSleepNStorm plugin;
 	private FileConfiguration configuration;
-	public SleepNStormAdminCommandTabCompleter(LTSleepNStormLoader plugin, FileConfiguration configuration) {
+	public SleepNStormAdminCommandTabCompleter(LTSleepNStorm plugin, FileConfiguration configuration) {
 		this.plugin = plugin;
 		this.configuration = configuration;
 	}
 	@Override
 	public final List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		List<String> ReturnNothing = new ArrayList<>();
-		if(sender.hasPermission("LTSleepNStorm.use") && sender.hasPermission("LTSleepNStorm.admin") && cmd.getName().equalsIgnoreCase("sleepnstormadmin")) {
+		if(sender.hasPermission("LTSleepNStorm.use") && sender.hasPermission("LTSleepNStorm.admin")) {
 			if(args.length == 1) {
 				ImmutableList<String> StormAdmin = ImmutableList.of("version", "timereset");
 				return partial(args[0], StormAdmin);

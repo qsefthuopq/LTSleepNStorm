@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,6 @@
  */
 package io.github.leothawne.LTSleepNStorm.command;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -30,17 +25,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 import io.github.leothawne.LTSleepNStorm.Version;
+import io.github.leothawne.LTSleepNStorm.api.utility.HTTP;
 
 public class SleepNStormAdminCommand implements CommandExecutor {
-	private LTSleepNStormLoader plugin;
+	private LTSleepNStorm plugin;
 	private ConsoleLoader myLogger;
 	private FileConfiguration configuration;
 	private FileConfiguration language;
-	public SleepNStormAdminCommand(LTSleepNStormLoader plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
+	public SleepNStormAdminCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
 		this.plugin = plugin;
 		this.myLogger = myLogger;
 		this.configuration = configuration;
@@ -52,48 +49,41 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 			if(sender.hasPermission("LTSleepNStorm.admin")) {
 				if(args.length == 0) {
 					sender.sendMessage(ChatColor.AQUA + "=+=+=+= [LT Sleep N Storm :: Admin] =+=+=+=");
-					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Administration commands for LT Sleep N Storm.");
-					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin version " + ChatColor.AQUA + "- Check for new updates.");
-					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin timereset " + ChatColor.AQUA + "- Set the world you are standing in to day 0.");
+					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Shows all administration commands for LT Sleep N Storm.");
+					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin version " + ChatColor.AQUA + "- Checks for new updates.");
+					sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin timereset " + ChatColor.AQUA + "- Sets the world you are standing in to day 0.");
 					sender.sendMessage(ChatColor.YELLOW + "You can also use "+ ChatColor.GREEN + "/sleepnstormadmin "+ ChatColor.YELLOW + "as "+ ChatColor.GREEN + "/snsa"+ ChatColor.YELLOW + ".");
 				} else if(args[0].equalsIgnoreCase("version")) {
 					if(args.length < 2) {
-						try {
-							URLConnection newUpdateURL = new URL("https://leothawne.github.io/LTSleepNStorm/api/version.html").openConnection();
-							newUpdateURL.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-							newUpdateURL.connect();
-							BufferedReader newUpdateReader = new BufferedReader(new InputStreamReader(newUpdateURL.getInputStream(), Charset.forName("UTF-8")));
-							StringBuilder sb = new StringBuilder();
-							String line;
-							while((line = newUpdateReader.readLine()) != null) {
-								sb.append(line);
-							}
-							if(sb.toString() != null) {
+						new BukkitRunnable() {
+							@Override
+							public final void run() {
 								String[] LocalVersion = Version.getVersionNumber().split("\\.");
 								int Local_VersionNumber1 = Integer.parseInt(LocalVersion[0]);
 								int Local_VersionNumber2 = Integer.parseInt(LocalVersion[1]);
 								int Local_VersionNumber3 = Integer.parseInt(LocalVersion[2]);
-								String[] Server1 = sb.toString().split("-");
-								String[] Server2 = Server1[0].split("\\.");
-								int Server2_VersionNumber1 = Integer.parseInt(Server2[0]);
-								int Server2_VersionNumber2 = Integer.parseInt(Server2[1]);
-								int Server2_VersionNumber3 = Integer.parseInt(Server2[2]);
-								sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Running: " + ChatColor.GREEN + "" + Version.getVersionNumber() + "" + ChatColor.YELLOW + " (released on " + ChatColor.GREEN + "" + Version.getVersionDate() + "" + ChatColor.YELLOW + ").");
-								String updateMessage = ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "A newer version is available: " + ChatColor.GREEN + "" + Server1[0] + "" + ChatColor.YELLOW + " (released on " + ChatColor.GREEN + "" + Server1[1] + "" + ChatColor.YELLOW + ").";
-								if(Server2_VersionNumber1 > Local_VersionNumber1) {
-									sender.sendMessage(updateMessage);
-								} else if(Server2_VersionNumber1 == Local_VersionNumber1 && Server2_VersionNumber2 > Local_VersionNumber2) {
-									sender.sendMessage(updateMessage);
-								} else if(Server2_VersionNumber1 == Local_VersionNumber1 && Server2_VersionNumber2 == Local_VersionNumber2 && Server2_VersionNumber3 > Local_VersionNumber3) {
-									sender.sendMessage(updateMessage);
+								String upToDate = ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "The plugin is up to date!";
+								String[] Server1 = HTTP.getData(Version.getUpdateURL()).split("-");
+								if(Server1[2].equals(Version.getMinecraftVersion())) {
+									String[] Server2 = Server1[0].split("\\.");
+									int Server2_VersionNumber1 = Integer.parseInt(Server2[0]);
+									int Server2_VersionNumber2 = Integer.parseInt(Server2[1]);
+									int Server2_VersionNumber3 = Integer.parseInt(Server2[2]);
+									String updateMessage = ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "A newer version is available: " + ChatColor.GREEN + "" + Server1[0] + "" + ChatColor.YELLOW + " (released on " + ChatColor.GREEN + "" + Server1[1] + "" + ChatColor.YELLOW + ").";
+									if(Server2_VersionNumber1 > Local_VersionNumber1) {
+										sender.sendMessage(updateMessage);
+									} else if(Server2_VersionNumber1 == Local_VersionNumber1 && Server2_VersionNumber2 > Local_VersionNumber2) {
+										sender.sendMessage(updateMessage);
+									} else if(Server2_VersionNumber1 == Local_VersionNumber1 && Server2_VersionNumber2 == Local_VersionNumber2 && Server2_VersionNumber3 > Local_VersionNumber3) {
+										sender.sendMessage(updateMessage);
+									} else {
+										sender.sendMessage(upToDate);
+									}
+								} else {
+									sender.sendMessage(upToDate);
 								}
-							} else {
-								sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Error while checking for new updates: Server did not respond correctly.");
 							}
-						} catch(Exception e) {
-							myLogger.severe("Error while checking for new updates: " + e.getMessage());
-							sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "Error while checking for new updates.");
-						}
+						}.runTask(plugin);
 					} else {
 						sender.sendMessage(ChatColor.AQUA + "[LTSNS :: Admin] " + ChatColor.YELLOW + "" + language.getString("player-tma"));
 					}

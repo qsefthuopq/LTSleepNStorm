@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.bukkit.plugin.Plugin;
 
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class WarnIntegrationsAPI {
-	public WarnIntegrationsAPI(LTSleepNStormLoader mainPlugin, List<String> plugins) {
+	public WarnIntegrationsAPI(LTSleepNStorm mainPlugin, List<String> plugins) {
 		for(String plugin : plugins) {
 			Plugin getPlugin = mainPlugin.getServer().getPluginManager().getPlugin(plugin);
 			if(getPlugin != null) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Murilo Amaral Nappi (murilonappi@gmail.com)
+ * Copyright (C) 2019 Murilo Amaral Nappi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,26 +20,27 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import io.github.leothawne.LTSleepNStorm.LTSleepNStormLoader;
+import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 import io.github.leothawne.LTSleepNStorm.api.utility.NearbyMonstersAPI;
 import io.github.leothawne.LTSleepNStorm.api.utility.SleepAPI;
 
 public class BedEvent implements Listener {
-	private static LTSleepNStormLoader plugin;
+	private static LTSleepNStorm plugin;
 	private static FileConfiguration configuration;
 	private static FileConfiguration language;
-	public BedEvent(LTSleepNStormLoader plugin, FileConfiguration configuration, FileConfiguration language) {
+	public BedEvent(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language) {
 		BedEvent.plugin = plugin;
 		BedEvent.configuration = configuration;
 		BedEvent.language = language;
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep")) {
