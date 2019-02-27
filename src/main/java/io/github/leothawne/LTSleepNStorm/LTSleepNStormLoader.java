@@ -21,6 +21,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.github.leothawne.LTSleepNStorm.command.SleepCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormAdminCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormCommand;
 import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormAdminCommandTabCompleter;
@@ -56,6 +57,7 @@ public class LTSleepNStormLoader extends JavaPlugin {
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormCommandTabCompleter());
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
+			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language));
 			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language));
 			new Version(this, myLogger);
 			Version.check();
