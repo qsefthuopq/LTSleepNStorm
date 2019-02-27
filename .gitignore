@@ -26,3 +26,8 @@ target/classes/io/github/leothawne/LTSleepNStorm/Version.class
 target/classes/META-INF/MANIFEST.MF
 target/classes/META-INF/maven/io.github.leothawne/LTSleepNStorm/pom.properties
 target/classes/META-INF/maven/io.github.leothawne/LTSleepNStorm/pom.xml
+target/classes/io/github/leothawne/LTSleepNStorm/api/LTSleepNStormAPI.class
+target/classes/io/github/leothawne/LTSleepNStorm/api/utility/HTTP.class
+target/classes/io/github/leothawne/LTSleepNStorm/command/SleepNStormAdminCommand$1.class
+target/classes/io/github/leothawne/LTSleepNStorm/LTSleepNStorm.class
+target/classes/io/github/leothawne/LTSleepNStorm/Version$1.class
