@@ -43,7 +43,7 @@ public class SleepCommand implements CommandExecutor {
 	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep")) {
+			if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep.command")) {
 				if(NearbyMonstersAPI.isSafe(player) == true) {
 					SleepAPI.sleep(plugin, configuration, language, null, player);
 				} else {
