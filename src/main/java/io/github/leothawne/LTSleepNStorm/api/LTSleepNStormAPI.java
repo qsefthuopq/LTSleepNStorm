@@ -84,7 +84,7 @@ public class LTSleepNStormAPI {
 	 * Returns a ConsoleLoader type value that can
 	 * be used to log messages on the server console.
 	 * 
-	 * @return Returns a ConsoleLoader type value.
+	 * @return A ConsoleLoader type value.
 	 * 
 	 */
 	public final ConsoleLoader getLogger() {
@@ -95,7 +95,7 @@ public class LTSleepNStormAPI {
 	 * Returns a FileConfiguration type value that can be used
 	 * to determine the current language used by the plugin.
 	 * 
-	 * @return Returns a FileConfiguration type value.
+	 * @return A FileConfiguration type value.
 	 * 
 	 */
 	public final FileConfiguration getLanguageParameters(){
@@ -106,7 +106,7 @@ public class LTSleepNStormAPI {
 	 * Returns a FileConfiguration type value that can be used
 	 * to determine the current language used by the plugin.
 	 * 
-	 * @return Returns a FileConfiguration type value.
+	 * @return A FileConfiguration type value.
 	 * 
 	 * @deprecated Replaced by {@link #getLanguageParameters()}
 	 * 
@@ -127,25 +127,23 @@ public class LTSleepNStormAPI {
 	}
 	/**
 	 * 
-	 * Returns a boolean type value that can be used
-	 * to determine if a player is away from hostile mobs.
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
 	 * 
 	 * @param player The Player type variable.
 	 * 
-	 * @return A boolean type value.
-	 * 
 	 */
 	public final void makeSleep(Player player) {
-		SleepAPI.sleep(plugin, configuration, language, null, player);
+		if(NearbyMonstersAPI.isSafe(player) == true) {
+			SleepAPI.sleep(plugin, configuration, language, null, player);
+		}
 	}
 	/**
 	 * 
-	 * Returns a boolean type value that can be used
-	 * to determine if a player is away from hostile mobs.
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
 	 * 
 	 * @param playerUUID The player's unique id.
-	 * 
-	 * @return A boolean type value.
 	 * 
 	 */
 	public final void makeSleep(UUID playerUUID) {
@@ -153,17 +151,59 @@ public class LTSleepNStormAPI {
 	}
 	/**
 	 * 
-	 * Returns a boolean type value that can be used
-	 * to determine if a player is away from hostile mobs.
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
 	 * 
 	 * @param playerName The player's name.
-	 * 
-	 * @return A boolean type value.
 	 * 
 	 * @deprecated Replaced by {@link #makeSleep(Player)} and {@link #makeSleep(UUID)}.
 	 * 
 	 */
 	public final void makeSleep(String playerName) {
 		makeSleep(plugin.getServer().getPlayer(playerName));
+	}
+	/**
+	 * 
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
+	 * 
+	 * @param player The Player type variable.
+	 * @param ignoreNearbyMonsters "true" if you want to make the player sleep even with monsters nearby. Default: false.
+	 * 
+	 */
+	public final void makeSleep(Player player, boolean ignoreNearbyMonsters) {
+		if(ignoreNearbyMonsters == true) {
+			if(NearbyMonstersAPI.isSafe(player) == true) {
+				SleepAPI.sleep(plugin, configuration, language, null, player);
+			}
+		} else {
+			makeSleep(player);
+		}
+	}
+	/**
+	 * 
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * @param ignoreNearbyMonsters "true" if you want to make the player sleep even with monsters nearby. Default: false.
+	 * 
+	 */
+	public final void makeSleep(UUID playerUUID, boolean ignoreNearbyMonsters) {
+		makeSleep(plugin.getServer().getPlayer(playerUUID), ignoreNearbyMonsters);
+	}
+	/**
+	 * 
+	 * Forces the player to sleep.
+	 * Permission nodes not required.
+	 * 
+	 * @param playerName The player's name.
+	 * @param ignoreNearbyMonsters "true" if you want to make the player sleep even with monsters nearby. Default: false.
+	 * 
+	 * @deprecated Replaced by {@link #makeSleep(Player, boolean)} and {@link #makeSleep(UUID, boolean)}.
+	 * 
+	 */
+	public final void makeSleep(String playerName, boolean ignoreNearbyMonsters) {
+		makeSleep(plugin.getServer().getPlayer(playerName), ignoreNearbyMonsters);
 	}
 }
