@@ -82,8 +82,8 @@ public class SleepAPI {
 		if(bed != null) {
 			plugin.getServer().getWorld(bed.getLocation().getWorld().getName()).strikeLightningEffect(bed.getLocation());
 		} else {
-			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 10, 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 3, 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 6, 1));
 		}
 		for(Player players : plugin.getServer().getOnlinePlayers()) {
 			players.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1F, 1F);
