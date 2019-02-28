@@ -18,7 +18,7 @@ commands:
         aliases: [snsa]
         usage: /<command>
     sleep:
-        description: A quick command to allow players to sleep without a bed.
+        description: Can be used by players to sleep without a bed.
         usage: /<command>
 permissions:
     LTSleepNStorm.use:
@@ -27,6 +27,9 @@ permissions:
     LTSleepNStorm.sleep:
         description: Allow players to use the new sleeping mechanic.
         default: true
+    LTSleepNStorm.sleep.command:
+        description: Allow players to sleep by command.
+        default: op
     LTSleepNStorm.admin:
         description: Allow admins to use LTSNS admin commands.
         default: op
