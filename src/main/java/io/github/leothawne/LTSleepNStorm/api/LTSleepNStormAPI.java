@@ -69,7 +69,7 @@ public class LTSleepNStormAPI {
 	 * Returns a boolean type value that can be used
 	 * to determine if a player is away from hostile mobs.
 	 * 
-	 * @param playerUUID The player's name.
+	 * @param playerName The player's name.
 	 * 
 	 * @return A boolean type value.
 	 * 
@@ -125,12 +125,44 @@ public class LTSleepNStormAPI {
 	public final boolean isMetricsEnabled() {
 		return metrics.isEnabled();
 	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if a player is away from hostile mobs.
+	 * 
+	 * @param player The Player type variable.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
 	public final void makeSleep(Player player) {
 		SleepAPI.sleep(plugin, configuration, language, null, player);
 	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if a player is away from hostile mobs.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
 	public final void makeSleep(UUID playerUUID) {
 		makeSleep(plugin.getServer().getPlayer(playerUUID));
 	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if a player is away from hostile mobs.
+	 * 
+	 * @param playerName The player's name.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 * @deprecated Replaced by {@link #makeSleep(Player)} and {@link #makeSleep(UUID)}.
+	 * 
+	 */
 	public final void makeSleep(String playerName) {
 		makeSleep(plugin.getServer().getPlayer(playerName));
 	}
