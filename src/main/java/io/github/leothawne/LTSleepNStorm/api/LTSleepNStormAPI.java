@@ -108,7 +108,7 @@ public class LTSleepNStormAPI {
 	 * 
 	 * @return Returns a FileConfiguration type value.
 	 * 
-	 * @deprecated Replaced by {@link #getLanguageParameters()()}
+	 * @deprecated Replaced by {@link #getLanguageParameters()}
 	 * 
 	 */
 	public final FileConfiguration getLanguageFile(){
