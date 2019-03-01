@@ -17,6 +17,8 @@
 package io.github.leothawne.LTSleepNStorm.api.utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -30,13 +32,16 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class SleepAPI {
-	public static final void sleep(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player) {
+	public static final void sleep(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player, HashMap<UUID, Integer> tiredLevel) {
 		ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
 		if(worldList.contains(player.getLocation().getWorld().getName())) {
 			if(player.getLocation().getWorld().getEnvironment() != Environment.NETHER && player.getLocation().getWorld().getEnvironment() != Environment.THE_END) {
 				boolean stormPassed = false;
 				boolean nightPassed = false;
 				if(player.getLocation().getWorld().getTime() > 12300 && player.getLocation().getWorld().getTime() < 23850) {
+					if(tiredLevel != null) {
+						tiredLevel.put(player.getUniqueId(), 0);
+					}
 					player.getLocation().getWorld().setTime(0);
 					nightPassed = true;
 					if(player.getLocation().getWorld().hasStorm() == true){
@@ -45,6 +50,9 @@ public class SleepAPI {
 					}
 				} else {
 					if(player.getLocation().getWorld().hasStorm() == true) {
+						if(tiredLevel != null) {
+							tiredLevel.put(player.getUniqueId(), 0);
+						}
 						player.getLocation().getWorld().setStorm(false);
 						stormPassed = true;
 					}
@@ -70,7 +78,6 @@ public class SleepAPI {
 						}
 					}
 				}
-				
 			} else {
 				String environment = player.getLocation().getWorld().getEnvironment().toString();
 				String[] envTag = language.getString("world-environment-error").split("%");

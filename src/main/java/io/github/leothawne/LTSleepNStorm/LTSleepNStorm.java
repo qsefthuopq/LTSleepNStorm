@@ -16,10 +16,15 @@
  */
 package io.github.leothawne.LTSleepNStorm;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.leothawne.LTSleepNStorm.api.LTSleepNStormAPI;
 import io.github.leothawne.LTSleepNStorm.api.bStats.MetricsAPI;
@@ -30,6 +35,8 @@ import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormAdminCo
 import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormCommandTabCompleter;
 import io.github.leothawne.LTSleepNStorm.event.AdminEvent;
 import io.github.leothawne.LTSleepNStorm.event.BedEvent;
+import io.github.leothawne.LTSleepNStorm.event.PlayerEvent;
+import io.github.leothawne.LTSleepNStorm.task.TiredLevelTask;
 
 /**
  * Main class.
@@ -47,6 +54,8 @@ public class LTSleepNStorm extends JavaPlugin {
 	private static FileConfiguration configuration;
 	private static FileConfiguration language;
 	private static MetricsAPI metrics;
+	private static HashMap<UUID, Integer> tiredLevel = new HashMap<UUID, Integer>();
+	private static int tiredLevelTask;
 	/**
 	 * 
 	 * @deprecated Not for public use.
@@ -62,12 +71,18 @@ public class LTSleepNStorm extends JavaPlugin {
 			MetricsLoader.init(this, myLogger, metrics);
 			LanguageLoader.check(this, myLogger, configuration);
 			language = LanguageLoader.load(this, myLogger, configuration);
+			PlayersFileLoader.check(this, myLogger);
+			for(Player player : getServer().getOnlinePlayers()) {
+				PlayersFileLoader.load(this, myLogger, player, tiredLevel, true);
+			}
 			getCommand("sleepnstorm").setExecutor(new SleepNStormCommand(myLogger, language));
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormCommandTabCompleter());
-			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language));
+			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language, tiredLevel));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
-			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language));
-			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language));
+			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language, tiredLevel));
+			BukkitScheduler scheduler = this.getServer().getScheduler();
+			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel), 0, 20 * 1);
+			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, tiredLevel));
 			Version.check(this, myLogger);
 		} else {
 			myLogger.severe("You choose to disable this plugin.");
@@ -82,6 +97,13 @@ public class LTSleepNStorm extends JavaPlugin {
 	@Override
 	public final void onDisable() {
 		myLogger.info("Unloading...");
+		BukkitScheduler scheduler = this.getServer().getScheduler();
+		if(scheduler.isCurrentlyRunning(tiredLevelTask)) {
+			scheduler.cancelTask(tiredLevelTask);
+		}
+		for(Player player : getServer().getOnlinePlayers()) {
+			PlayersFileLoader.save(this, myLogger, player, tiredLevel, true);
+		}
 	}
 	/**
 	 * 
@@ -92,6 +114,6 @@ public class LTSleepNStorm extends JavaPlugin {
 	 */
 	@SuppressWarnings("deprecation")
 	public final LTSleepNStormAPI getAPI() {
-		return new LTSleepNStormAPI(this, myLogger, configuration, language, metrics);
+		return new LTSleepNStormAPI(this, myLogger, configuration, language, metrics, tiredLevel);
 	}
 }

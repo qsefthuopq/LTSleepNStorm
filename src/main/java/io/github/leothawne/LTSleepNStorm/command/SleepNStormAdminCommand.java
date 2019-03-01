@@ -17,6 +17,8 @@
 package io.github.leothawne.LTSleepNStorm.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -33,15 +35,17 @@ import io.github.leothawne.LTSleepNStorm.Version;
 import io.github.leothawne.LTSleepNStorm.api.utility.HTTP;
 
 public class SleepNStormAdminCommand implements CommandExecutor {
-	private LTSleepNStorm plugin;
-	private ConsoleLoader myLogger;
-	private FileConfiguration configuration;
-	private FileConfiguration language;
-	public SleepNStormAdminCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
-		this.plugin = plugin;
-		this.myLogger = myLogger;
-		this.configuration = configuration;
-		this.language = language;
+	private static LTSleepNStorm plugin;
+	private static ConsoleLoader myLogger;
+	private static FileConfiguration configuration;
+	private static FileConfiguration language;
+	private static HashMap<UUID, Integer> tiredLevel;
+	public SleepNStormAdminCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, HashMap<UUID, Integer> tiredLevel) {
+		SleepNStormAdminCommand.plugin = plugin;
+		SleepNStormAdminCommand.myLogger = myLogger;
+		SleepNStormAdminCommand.configuration = configuration;
+		SleepNStormAdminCommand.language = language;
+		SleepNStormAdminCommand.tiredLevel = tiredLevel;
 	}
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -113,6 +117,7 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 									String dayTag = language.getString("world-day-tag");
 									for(Player player : plugin.getServer().getOnlinePlayers()) {
 										if(player.getLocation().getWorld().equals(world)) {
+											tiredLevel.put(player.getUniqueId(), 0);
 											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
 											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
 										}
@@ -131,6 +136,7 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 									String dayTag = language.getString("world-day-tag");
 									for(Player player : plugin.getServer().getOnlinePlayers()) {
 										if(player.getLocation().getWorld().equals(world)) {
+											tiredLevel.put(player.getUniqueId(), 0);
 											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
 											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
 										}
@@ -147,6 +153,7 @@ public class SleepNStormAdminCommand implements CommandExecutor {
 									String dayTag = language.getString("world-day-tag");
 									for(Player player : plugin.getServer().getOnlinePlayers()) {
 										if(player.getLocation().getWorld().equals(world)) {
+											tiredLevel.put(player.getUniqueId(), 0);
 											player.sendMessage(ChatColor.RED + "" + language.getString("world-day-reset"));
 											player.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + "0", null, 10, 70, 20);
 										}

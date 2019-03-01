@@ -16,6 +16,9 @@
  */
 package io.github.leothawne.LTSleepNStorm.command;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,21 +36,37 @@ public class SleepCommand implements CommandExecutor {
 	private static ConsoleLoader myLogger;
 	private static FileConfiguration configuration;
 	private static FileConfiguration language;
-	public SleepCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language) {
+	private static HashMap<UUID, Integer> tiredLevel;
+	public SleepCommand(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, HashMap<UUID, Integer> tiredLevel) {
 		SleepCommand.plugin = plugin;
 		SleepCommand.myLogger = myLogger;
 		SleepCommand.configuration = configuration;
 		SleepCommand.language = language;
+		SleepCommand.tiredLevel = tiredLevel;
 	}
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep.command")) {
-				if(NearbyMonstersAPI.isSafe(player) == true) {
-					SleepAPI.sleep(plugin, configuration, language, null, player);
+				if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
+					if(NearbyMonstersAPI.isSafe(player) == true) {
+						SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel);
+					} else {
+						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("nearby-monsters"));
+					}
 				} else {
-					player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("nearby-monsters"));
+					if(player.hasPermission("LTSleepNStorm.sleep.bypass")) {
+						if(NearbyMonstersAPI.isSafe(player) == true) {
+							SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel);
+						} else {
+							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("nearby-monsters"));
+						}
+					} else {
+						String[] notTired = language.getString("player-not-tired").split("%");
+						int tiredTime = 840 - tiredLevel.get(player.getUniqueId()).intValue();
+						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + notTired[0] + ChatColor.GREEN + "" + tiredTime + "" + ChatColor.YELLOW + notTired[1]);
+					}
 				}
 			} else {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("no-permission"));
