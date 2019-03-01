@@ -26,11 +26,11 @@ import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 import io.github.leothawne.LTSleepNStorm.Version;
 
 public class SleepNStormCommand implements CommandExecutor {
-	private ConsoleLoader myLogger;
-	private FileConfiguration language;
+	private static ConsoleLoader myLogger;
+	private static FileConfiguration language;
 	public SleepNStormCommand(ConsoleLoader myLogger, FileConfiguration language) {
-		this.myLogger = myLogger;
-		this.language = language;
+		SleepNStormCommand.myLogger = myLogger;
+		SleepNStormCommand.language = language;
 	}
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
