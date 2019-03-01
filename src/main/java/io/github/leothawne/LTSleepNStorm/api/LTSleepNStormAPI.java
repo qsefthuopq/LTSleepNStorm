@@ -1,5 +1,6 @@
 package io.github.leothawne.LTSleepNStorm.api;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,6 +25,7 @@ public class LTSleepNStormAPI {
 	private static FileConfiguration configuration;
 	private static FileConfiguration language;
 	private static MetricsAPI metrics;
+	private static HashMap<UUID, Integer> tiredLevel;
 	/**
 	 * 
 	 * @deprecated There is no need to manually create
@@ -31,12 +33,13 @@ public class LTSleepNStormAPI {
 	 * you can easily use {@link LTSleepNStorm#getAPI()}.
 	 * 
 	 */
-	public LTSleepNStormAPI(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, MetricsAPI metrics) {
+	public LTSleepNStormAPI(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, MetricsAPI metrics, HashMap<UUID, Integer> tiredLevel) {
 		LTSleepNStormAPI.plugin = plugin;
 		LTSleepNStormAPI.myLogger = myLogger;
 		LTSleepNStormAPI.configuration = configuration;
 		LTSleepNStormAPI.language = language;
 		LTSleepNStormAPI.metrics = metrics;
+		LTSleepNStormAPI.tiredLevel = tiredLevel;
 	}
 	/**
 	 * 
@@ -135,7 +138,7 @@ public class LTSleepNStormAPI {
 	 */
 	public final void makeSleep(Player player) {
 		if(NearbyMonstersAPI.isSafe(player) == true) {
-			SleepAPI.sleep(plugin, configuration, language, null, player);
+			SleepAPI.sleep(plugin, configuration, language, null, player, null);
 		}
 	}
 	/**
@@ -172,12 +175,10 @@ public class LTSleepNStormAPI {
 	 * 
 	 */
 	public final void makeSleep(Player player, boolean ignoreNearbyMonsters) {
-		if(ignoreNearbyMonsters == true) {
-			if(NearbyMonstersAPI.isSafe(player) == true) {
-				SleepAPI.sleep(plugin, configuration, language, null, player);
-			}
-		} else {
+		if(ignoreNearbyMonsters == false) {
 			makeSleep(player);
+		} else {
+			SleepAPI.sleep(plugin, configuration, language, null, player, null);
 		}
 	}
 	/**
@@ -205,5 +206,49 @@ public class LTSleepNStormAPI {
 	 */
 	public final void makeSleep(String playerName, boolean ignoreNearbyMonsters) {
 		makeSleep(plugin.getServer().getPlayer(playerName), ignoreNearbyMonsters);
+	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is already tired.
+	 * 
+	 * @param player The Player type variable.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final boolean isPlayerTired(Player player) {
+		if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is already tired.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final boolean isPlayerTired(UUID playerUUID) {
+		return isPlayerTired(plugin.getServer().getPlayer(playerUUID));
+	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is already tired.
+	 * 
+	 * @param playerName The player's name.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 * @deprecated Replaced by {@link #isPlayerTired(Player)} or {@link #isPlayerTired(UUID)}.
+	 * 
+	 */
+	public final boolean isPlayerTired(String playerName) {
+		return isPlayerTired(plugin.getServer().getPlayer(playerName));
 	}
 }
