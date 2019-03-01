@@ -1,3 +1,20 @@
+#
+# Copyright (C) 2019 Murilo Amaral Nappi
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 no-permission: "You can't do that! You don't have permission."
 world-not-found: "% does not exist or it was not loaded."
 world-blocked: "The typed world is not present on the worlds list."
@@ -8,8 +25,10 @@ world-storm-passed: "% slept and the storm has passed."
 world-night-storm-passed: "% slept and both night and storm has passed."
 world-environment-error: "You cannot do that on a % environment!"
 player-tma: "Too many arguments."
-player-error: "You must be a player to do that!"
+player-error: "You must be a player to do that."
 nearby-monsters: "You may not rest now, there are monsters nearby."
+player-not-tired: "You are not tired at the moment. You will be tired in: %s."
+player-very-tired: "You are very tired! Maybe I should get some sleep."
 
 #Do not change this under any circumstances!
 language-version: 2
