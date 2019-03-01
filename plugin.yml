@@ -1,3 +1,20 @@
+#
+# Copyright (C) 2019 Murilo Amaral Nappi
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 name: LTSleepNStorm
 description: A new sleeping system in Minecraft 1.13.x.
 version: 0.2.0
@@ -10,26 +27,29 @@ main: io.github.leothawne.LTSleepNStorm.LTSleepNStorm
 database: false
 commands:
     sleepnstorm:
-        description: All available commands for LT Sleep N Storm.
+        description: A LT Sleep N Storm command.
         aliases: [sns]
         usage: /<command>
     sleepnstormadmin:
-        description: All admin commands for LT Sleep N Storm.
+        description: A LT Sleep N Storm command.
         aliases: [snsa]
         usage: /<command>
     sleep:
-        description: Can be used by players to sleep without a bed.
+        description: A LT Sleep N Storm command.
         usage: /<command>
 permissions:
     LTSleepNStorm.use:
-        description: Allow players to use LTSNS commands.
+        description: A LT Sleep N Storm permission node.
         default: true
     LTSleepNStorm.sleep:
-        description: Allow players to use the new sleeping mechanic.
+        description: A LT Sleep N Storm permission node.
         default: true
+    LTSleepNStorm.sleep.bypass:
+        description: A LT Sleep N Storm permission node.
+        default: op
     LTSleepNStorm.sleep.command:
-        description: Allow players to sleep by command.
+        description: A LT Sleep N Storm permission node.
         default: op
     LTSleepNStorm.admin:
-        description: Allow admins to use LTSNS admin commands.
+        description: A LT Sleep N Storm permission node.
         default: op
