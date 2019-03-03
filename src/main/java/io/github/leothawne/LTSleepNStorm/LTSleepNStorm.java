@@ -35,7 +35,9 @@ import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormAdminCo
 import io.github.leothawne.LTSleepNStorm.command.tabCompleter.SleepNStormCommandTabCompleter;
 import io.github.leothawne.LTSleepNStorm.event.AdminEvent;
 import io.github.leothawne.LTSleepNStorm.event.BedEvent;
+import io.github.leothawne.LTSleepNStorm.event.FurnaceEvent;
 import io.github.leothawne.LTSleepNStorm.event.PlayerEvent;
+import io.github.leothawne.LTSleepNStorm.task.RecipeTask;
 import io.github.leothawne.LTSleepNStorm.task.TiredLevelTask;
 
 /**
@@ -55,7 +57,9 @@ public class LTSleepNStorm extends JavaPlugin {
 	private static FileConfiguration language;
 	private static MetricsAPI metrics;
 	private static HashMap<UUID, Integer> tiredLevel = new HashMap<UUID, Integer>();
+	
 	private static int tiredLevelTask;
+	private static int recipeTask;
 	/**
 	 * 
 	 * @deprecated Not for public use.
@@ -82,7 +86,8 @@ public class LTSleepNStorm extends JavaPlugin {
 			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language, tiredLevel));
 			BukkitScheduler scheduler = this.getServer().getScheduler();
 			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel), 0, 20 * 1);
-			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, tiredLevel));
+			recipeTask = scheduler.scheduleSyncRepeatingTask(this, new RecipeTask(this), 0, 20 * 10);
+			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, tiredLevel), new FurnaceEvent());
 			Version.check(this, myLogger);
 		} else {
 			myLogger.severe("You choose to disable this plugin.");
@@ -104,6 +109,11 @@ public class LTSleepNStorm extends JavaPlugin {
 		for(Player player : getServer().getOnlinePlayers()) {
 			PlayersFileLoader.save(this, myLogger, player, tiredLevel, true);
 		}
+		if(scheduler.isCurrentlyRunning(recipeTask)) {
+			scheduler.cancelTask(recipeTask);
+			RecipeTask.resetRecipes();
+		}
+		Bukkit.resetRecipes();
 	}
 	/**
 	 * 
