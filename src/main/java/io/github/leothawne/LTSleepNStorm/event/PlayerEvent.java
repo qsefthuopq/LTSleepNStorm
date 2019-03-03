@@ -22,12 +22,14 @@ import java.util.UUID;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 import io.github.leothawne.LTSleepNStorm.PlayersFileLoader;
+import io.github.leothawne.LTSleepNStorm.item.BottleOfCoffeeItem;
 
 public class PlayerEvent implements Listener {
 	private static LTSleepNStorm plugin;
@@ -45,5 +47,11 @@ public class PlayerEvent implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public static final void onPlayerQuit(PlayerQuitEvent event) {
 		PlayersFileLoader.save(plugin, myLogger, event.getPlayer(), tiredLevel, false);
+	}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public static final void onPlayerConsume(PlayerItemConsumeEvent event) {
+		if(event.getItem().equals(BottleOfCoffeeItem.getItemStack())) {
+			tiredLevel.put(event.getPlayer().getUniqueId(), (tiredLevel.get(event.getPlayer().getUniqueId()) - 150));
+		}
 	}
 }
