@@ -20,7 +20,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Bed.Part;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,28 +55,109 @@ public class BedEvent implements Listener {
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep")) {
-			if(event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK && player.isSneaking() == false){
+			if(event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK){
 				Block block = event.getClickedBlock();
 				if(block.getType().toString().contains("_BED")) {
-					if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
-						if(NearbyMonstersAPI.isSafe(player) == true) {
-							SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
-						} else {
-							event.setCancelled(true);
+					Bed bedData = (Bed) block.getBlockData();
+					boolean isObstructed = false;
+					if(bedData.getFacing().equals(BlockFace.EAST)) {
+						if(bedData.getPart().equals(Part.HEAD)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), (block.getLocation().getBlockX() - 1), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+						if(bedData.getPart().equals(Part.FOOT)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), (block.getLocation().getBlockX() + 1), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+					}
+					if(bedData.getFacing().equals(BlockFace.NORTH)) {
+						if(bedData.getPart().equals(Part.HEAD)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), (block.getLocation().getBlockZ() + 1)).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+						if(bedData.getPart().equals(Part.FOOT)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), (block.getLocation().getBlockZ() - 1)).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+					}
+					if(bedData.getFacing().equals(BlockFace.WEST)) {
+						if(bedData.getPart().equals(Part.HEAD)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), (block.getLocation().getBlockX() + 1), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+						if(bedData.getPart().equals(Part.FOOT)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), (block.getLocation().getBlockX() - 1), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+					}
+					if(bedData.getFacing().equals(BlockFace.SOUTH)) {
+						if(bedData.getPart().equals(Part.HEAD)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), (block.getLocation().getBlockZ() - 1)).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+						if(bedData.getPart().equals(Part.FOOT)) {
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), block.getLocation().getBlockZ()).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+							if(new Location(block.getLocation().getWorld(), block.getLocation().getBlockX(), (block.getLocation().getBlockY() + 1), (block.getLocation().getBlockZ() + 1)).getBlock().getType().equals(Material.AIR) == false) {
+								isObstructed = true;
+							}
+						}
+					}
+					if(isObstructed == false) {
+						if(player.getLocation().distance(block.getLocation()) <= 3.5) {
+							if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
+								if(NearbyMonstersAPI.isSafe(player) == true) {
+									SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
+								} else {
+									event.setCancelled(true);
+								}
+							} else {
+								if(player.hasPermission("LTSleepNStorm.sleep.bypass")) {
+									if(NearbyMonstersAPI.isSafe(player) == true) {
+										SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
+									} else {
+										event.setCancelled(true);
+									}
+								} else {
+									String[] notTired = language.getString("player-not-tired").split("%");
+									int tiredTime = 840 - tiredLevel.get(player.getUniqueId()).intValue();
+									player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + notTired[0] + ChatColor.GREEN + "" + tiredTime + "" + ChatColor.YELLOW + notTired[1]);
+									event.setCancelled(true);
+								}
+							}
 						}
 					} else {
-						if(player.hasPermission("LTSleepNStorm.sleep.bypass")) {
-							if(NearbyMonstersAPI.isSafe(player) == true) {
-								SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
-							} else {
-								event.setCancelled(true);
-							}
-						} else {
-							String[] notTired = language.getString("player-not-tired").split("%");
-							int tiredTime = 840 - tiredLevel.get(player.getUniqueId()).intValue();
-							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + notTired[0] + ChatColor.GREEN + "" + tiredTime + "" + ChatColor.YELLOW + notTired[1]);
-							event.setCancelled(true);
-						}
+						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + language.getString("bed-obstructed"));
+						event.setCancelled(true);
 					}
 				}
 			}
