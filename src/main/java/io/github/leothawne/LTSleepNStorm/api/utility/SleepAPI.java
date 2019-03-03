@@ -44,16 +44,18 @@ public class SleepAPI {
 					}
 					player.getLocation().getWorld().setTime(0);
 					nightPassed = true;
-					if(player.getLocation().getWorld().hasStorm() == true){
+					if(player.getLocation().getWorld().hasStorm() == true && player.getLocation().getWorld().isThundering() == true){
 						player.getLocation().getWorld().setStorm(false);
+						player.getLocation().getWorld().setThundering(false);
 						stormPassed = true;
 					}
 				} else {
-					if(player.getLocation().getWorld().hasStorm() == true) {
+					if(player.getLocation().getWorld().hasStorm() == true && player.getLocation().getWorld().isThundering() == true) {
 						if(tiredLevel != null) {
 							tiredLevel.put(player.getUniqueId(), 0);
 						}
 						player.getLocation().getWorld().setStorm(false);
+						player.getLocation().getWorld().setThundering(false);
 						stormPassed = true;
 					}
 				}
