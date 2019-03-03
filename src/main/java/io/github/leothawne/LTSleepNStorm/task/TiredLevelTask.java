@@ -59,6 +59,9 @@ public class TiredLevelTask implements Runnable {
 					if(tiredLevel.get(player.getUniqueId()).intValue() > 3000) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
 					}
+					if(tiredLevel.get(player.getUniqueId()).intValue() > 3200) {
+						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 3));
+					}
 				}
 			}
 		}
