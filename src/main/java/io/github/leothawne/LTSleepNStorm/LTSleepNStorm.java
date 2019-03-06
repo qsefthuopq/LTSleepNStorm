@@ -58,6 +58,8 @@ public class LTSleepNStorm extends JavaPlugin {
 	private static MetricsAPI metrics;
 	private static HashMap<UUID, Integer> tiredLevel = new HashMap<UUID, Integer>();
 	
+	private static BukkitScheduler scheduler;
+	
 	private static int tiredLevelTask;
 	private static int recipeTask;
 	/**
@@ -72,6 +74,7 @@ public class LTSleepNStorm extends JavaPlugin {
 		ConfigurationLoader.check(this, myLogger);
 		configuration = ConfigurationLoader.load(this, myLogger);
 		if(configuration.getBoolean("enable-plugin") == true) {
+			Version.check(this, myLogger);
 			MetricsLoader.init(this, myLogger, metrics);
 			LanguageLoader.check(this, myLogger, configuration);
 			language = LanguageLoader.load(this, myLogger, configuration);
@@ -84,11 +87,10 @@ public class LTSleepNStorm extends JavaPlugin {
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language, tiredLevel));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
 			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language, tiredLevel));
-			BukkitScheduler scheduler = this.getServer().getScheduler();
+			scheduler = this.getServer().getScheduler();
 			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel), 0, 20 * 1);
 			recipeTask = scheduler.scheduleSyncRepeatingTask(this, new RecipeTask(this), 0, 20 * 10);
 			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, tiredLevel), new FurnaceEvent());
-			Version.check(this, myLogger);
 		} else {
 			myLogger.severe("You choose to disable this plugin.");
 			getServer().getPluginManager().disablePlugin(this);
@@ -102,7 +104,6 @@ public class LTSleepNStorm extends JavaPlugin {
 	@Override
 	public final void onDisable() {
 		myLogger.info("Unloading...");
-		BukkitScheduler scheduler = this.getServer().getScheduler();
 		if(scheduler.isCurrentlyRunning(tiredLevelTask)) {
 			scheduler.cancelTask(tiredLevelTask);
 		}
@@ -111,9 +112,8 @@ public class LTSleepNStorm extends JavaPlugin {
 		}
 		if(scheduler.isCurrentlyRunning(recipeTask)) {
 			scheduler.cancelTask(recipeTask);
-			RecipeTask.resetRecipes();
 		}
-		Bukkit.resetRecipes();
+		RecipeTask.resetRecipes();
 	}
 	/**
 	 * 
