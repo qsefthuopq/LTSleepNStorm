@@ -138,7 +138,7 @@ public class LTSleepNStormAPI {
 	 */
 	public final void makeSleep(Player player) {
 		if(NearbyMonstersAPI.isSafe(player) == true) {
-			SleepAPI.sleep(plugin, configuration, language, null, player, null);
+			SleepAPI.sleep(plugin, configuration, language, null, player, null, false);
 		}
 	}
 	/**
@@ -178,7 +178,7 @@ public class LTSleepNStormAPI {
 		if(ignoreNearbyMonsters == false) {
 			makeSleep(player);
 		} else {
-			SleepAPI.sleep(plugin, configuration, language, null, player, null);
+			SleepAPI.sleep(plugin, configuration, language, null, player, null, false);
 		}
 	}
 	/**
