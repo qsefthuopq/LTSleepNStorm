@@ -51,14 +51,14 @@ public class SleepCommand implements CommandExecutor {
 			if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep.command")) {
 				if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
 					if(NearbyMonstersAPI.isSafe(player) == true) {
-						SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel);
+						SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel, true);
 					} else {
 						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("nearby-monsters"));
 					}
 				} else {
 					if(player.hasPermission("LTSleepNStorm.sleep.bypass")) {
 						if(NearbyMonstersAPI.isSafe(player) == true) {
-							SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel);
+							SleepAPI.sleep(plugin, configuration, language, null, player, tiredLevel, true);
 						} else {
 							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("nearby-monsters"));
 						}
