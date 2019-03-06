@@ -32,7 +32,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class SleepAPI {
-	public static final void sleep(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player, HashMap<UUID, Integer> tiredLevel) {
+	public static final void sleep(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, Block block, Player player, HashMap<UUID, Integer> tiredLevel, boolean byCommand) {
 		ArrayList<?> worldList = new ArrayList<>(configuration.getList("worlds"));
 		if(worldList.contains(player.getLocation().getWorld().getName())) {
 			if(player.getLocation().getWorld().getEnvironment() != Environment.NETHER && player.getLocation().getWorld().getEnvironment() != Environment.THE_END) {
@@ -44,8 +44,11 @@ public class SleepAPI {
 					}
 					player.getLocation().getWorld().setTime(0);
 					nightPassed = true;
-					if(player.getLocation().getWorld().hasStorm() == true && player.getLocation().getWorld().isThundering() == true){
+					if(player.getLocation().getWorld().hasStorm() == true){
 						player.getLocation().getWorld().setStorm(false);
+						stormPassed = true;
+					}
+					if(player.getLocation().getWorld().isThundering() == true){
 						player.getLocation().getWorld().setThundering(false);
 						stormPassed = true;
 					}
@@ -77,6 +80,10 @@ public class SleepAPI {
 							players.sendMessage(ChatColor.AQUA + "" + nightStormTag[0] + "" + ChatColor.GOLD + "" + player.getName() + "" + ChatColor.AQUA +  "" + nightStormTag[1]);
 							players.sendTitle(ChatColor.GOLD + "" + dayTag + "" + ChatColor.AQUA + "" + String.valueOf(dayCount), null, 10, 70, 20);
 							runEffect(plugin, block, player);
+						} else {
+							if(byCommand == true) {
+								player.sendMessage("Nope!");
+							}
 						}
 					}
 				}
