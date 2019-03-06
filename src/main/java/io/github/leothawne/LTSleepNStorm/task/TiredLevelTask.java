@@ -43,24 +43,40 @@ public class TiredLevelTask implements Runnable {
 		for(Player player : plugin.getServer().getOnlinePlayers()) {
 			if(player.getGameMode().equals(GameMode.ADVENTURE) || player.getGameMode().equals(GameMode.SURVIVAL)) {
 				tiredLevel.put(player.getUniqueId(), (tiredLevel.get(player.getUniqueId()) + 1));
-				if(!player.hasPermission("LTSleepNStorm.sleep.bypass")) {
+				if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
+					if(tiredLevel.get(player.getUniqueId()).intValue() < 10) {
+						if(player.hasPotionEffect(PotionEffectType.SLOW)) {
+							player.removePotionEffect(PotionEffectType.SLOW);
+						}
+						if(player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+							player.removePotionEffect(PotionEffectType.BLINDNESS);
+						}
+					}
 					if(tiredLevel.get(player.getUniqueId()).intValue() == 2040) {
 						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-very-tired"));
-						player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 1F, 1F);
+						player.playSound(player.getLocation(), Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F);
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 10, 1));
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1));
 					}
 					if(tiredLevel.get(player.getUniqueId()).intValue() == 2400) {
 						player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-very-tired"));
-						player.playSound(player.getLocation(), Sound.AMBIENT_CAVE, 1F, 1F);
+						player.playSound(player.getLocation(), Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F);
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 20, 2));
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 10, 2));
 					}
 					if(tiredLevel.get(player.getUniqueId()).intValue() > 3000) {
-						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 3));
+						if(player.hasPotionEffect(PotionEffectType.SLOW) == false) {
+							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-very-tired"));
+							player.playSound(player.getLocation(), Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 999999, 3));
+						}
 					}
 					if(tiredLevel.get(player.getUniqueId()).intValue() > 3200) {
-						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 3));
+						if(player.hasPotionEffect(PotionEffectType.BLINDNESS) == false) {
+							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-very-tired"));
+							player.playSound(player.getLocation(), Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 999999, 3));
+						}
 					}
 				}
 			}
