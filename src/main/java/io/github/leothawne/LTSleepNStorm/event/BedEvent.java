@@ -136,14 +136,14 @@ public class BedEvent implements Listener {
 						if(player.getLocation().distance(block.getLocation()) <= 3.5) {
 							if(tiredLevel.get(player.getUniqueId()).intValue() >= 840) {
 								if(NearbyMonstersAPI.isSafe(player) == true) {
-									SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
+									SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel, false);
 								} else {
 									event.setCancelled(true);
 								}
 							} else {
 								if(player.hasPermission("LTSleepNStorm.sleep.bypass")) {
 									if(NearbyMonstersAPI.isSafe(player) == true) {
-										SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel);
+										SleepAPI.sleep(plugin, configuration, language, block, player, tiredLevel, false);
 									} else {
 										event.setCancelled(true);
 									}
