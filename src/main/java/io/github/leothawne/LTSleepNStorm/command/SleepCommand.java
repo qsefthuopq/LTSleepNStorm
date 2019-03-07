@@ -70,7 +70,7 @@ public class SleepCommand implements CommandExecutor {
 				}
 			} else {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("no-permission"));
-				myLogger.severe(player.getName() + " does not have permission [LTSleepNStorm.use].");
+				myLogger.severe(player.getName() + " does not have permission [LTSleepNStorm.use, LTSleepNStorm.sleep.command].");
 			}
 		} else {
 			sender.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("player-error"));
