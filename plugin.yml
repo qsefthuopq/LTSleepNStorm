@@ -20,6 +20,10 @@ commands:
     sleep:
         description: A LT Sleep N Storm command.
         usage: /<command>
+    restmode:
+        description: A LT Sleep N Storm command.
+        aliases: [rm]
+        usage: /<command>
 permissions:
     LTSleepNStorm.use:
         description: A LT Sleep N Storm permission node.

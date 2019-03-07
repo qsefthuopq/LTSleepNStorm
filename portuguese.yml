@@ -13,6 +13,8 @@ nearby-monsters: "Você não pode dormir agora, há monstros por perto."
 player-not-tired: "Você não está cansado no momento. Você estará cansado em: %s."
 player-very-tired: "Você está muito cansado! Talvez seja melhor dormir um pouco."
 bed-obstructed: "A cama está obstruída!"
+afk-activated: "Modo de descanso ativado! Você não irá ficar cansado até que faça alguma coisa."
+afk-deactivated: "Modo de descanso desativado!"
 
 #Não mude isso sob nenhuma circunstância!
 language-version: 2

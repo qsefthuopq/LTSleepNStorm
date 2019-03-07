@@ -13,6 +13,8 @@ nearby-monsters: "You may not rest now, there are monsters nearby."
 player-not-tired: "You are not tired at the moment. You will be tired in: %s."
 player-very-tired: "You are very tired! Maybe I should get some sleep."
 bed-obstructed: "The bed is obstructed!"
+afk-activated: "Rest mode activated! You will not get tired until you do something."
+afk-deactivated: "Rest mode deactivated!"
 
 #Do not change this under any circumstances!
 language-version: 2

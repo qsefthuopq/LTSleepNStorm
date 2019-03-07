@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.leothawne.LTSleepNStorm.api.LTSleepNStormAPI;
 import io.github.leothawne.LTSleepNStorm.api.bStats.MetricsAPI;
+import io.github.leothawne.LTSleepNStorm.command.RestModeCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormAdminCommand;
 import io.github.leothawne.LTSleepNStorm.command.SleepNStormCommand;
@@ -57,6 +58,7 @@ public class LTSleepNStorm extends JavaPlugin {
 	private static FileConfiguration language;
 	private static MetricsAPI metrics;
 	private static HashMap<UUID, Integer> tiredLevel = new HashMap<UUID, Integer>();
+	private static HashMap<UUID, Integer> afkLevel = new HashMap<UUID, Integer>();
 	
 	private static BukkitScheduler scheduler;
 	
@@ -81,16 +83,18 @@ public class LTSleepNStorm extends JavaPlugin {
 			PlayersFileLoader.check(this, myLogger);
 			for(Player player : getServer().getOnlinePlayers()) {
 				PlayersFileLoader.load(this, myLogger, player, tiredLevel, true);
+				afkLevel.put(player.getUniqueId(), 0);
 			}
 			getCommand("sleepnstorm").setExecutor(new SleepNStormCommand(myLogger, language));
 			getCommand("sleepnstorm").setTabCompleter(new SleepNStormCommandTabCompleter());
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language, tiredLevel));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
 			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language, tiredLevel));
+			getCommand("restmode").setExecutor(new RestModeCommand(myLogger, language, afkLevel));
 			scheduler = this.getServer().getScheduler();
-			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel), 0, 20 * 1);
+			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel, afkLevel), 0, 20 * 1);
 			recipeTask = scheduler.scheduleSyncRepeatingTask(this, new RecipeTask(this), 0, 20 * 10);
-			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, tiredLevel), new FurnaceEvent());
+			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, language, tiredLevel, afkLevel), new FurnaceEvent());
 		} else {
 			myLogger.severe("You choose to disable this plugin.");
 			getServer().getPluginManager().disablePlugin(this);
