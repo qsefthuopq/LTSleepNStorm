@@ -128,6 +128,6 @@ public class LTSleepNStorm extends JavaPlugin {
 	 */
 	@SuppressWarnings("deprecation")
 	public final LTSleepNStormAPI getAPI() {
-		return new LTSleepNStormAPI(this, myLogger, configuration, language, metrics, tiredLevel);
+		return new LTSleepNStormAPI(this, myLogger, configuration, language, metrics, tiredLevel, afkLevel);
 	}
 }
