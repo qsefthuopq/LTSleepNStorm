@@ -83,6 +83,10 @@ public class SleepAPI {
 						} else {
 							if(byCommand == true) {
 								player.sendMessage("Nope!");
+							} else {
+								tiredLevel.put(player.getUniqueId(), 0);
+								player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 2, 0));
+								player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + language.getString("player-took-nap"));
 							}
 						}
 					}
