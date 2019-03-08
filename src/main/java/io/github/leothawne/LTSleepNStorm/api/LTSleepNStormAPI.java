@@ -26,6 +26,7 @@ public class LTSleepNStormAPI {
 	private static FileConfiguration language;
 	private static MetricsAPI metrics;
 	private static HashMap<UUID, Integer> tiredLevel;
+	private static HashMap<UUID, Integer> afkLevel;
 	/**
 	 * 
 	 * @deprecated There is no need to manually create
@@ -33,13 +34,14 @@ public class LTSleepNStormAPI {
 	 * you can easily use {@link LTSleepNStorm#getAPI()}.
 	 * 
 	 */
-	public LTSleepNStormAPI(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, MetricsAPI metrics, HashMap<UUID, Integer> tiredLevel) {
+	public LTSleepNStormAPI(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, MetricsAPI metrics, HashMap<UUID, Integer> tiredLevel, HashMap<UUID, Integer> afkLevel) {
 		LTSleepNStormAPI.plugin = plugin;
 		LTSleepNStormAPI.myLogger = myLogger;
 		LTSleepNStormAPI.configuration = configuration;
 		LTSleepNStormAPI.language = language;
 		LTSleepNStormAPI.metrics = metrics;
 		LTSleepNStormAPI.tiredLevel = tiredLevel;
+		LTSleepNStormAPI.afkLevel = afkLevel;
 	}
 	/**
 	 * 
@@ -250,5 +252,129 @@ public class LTSleepNStormAPI {
 	 */
 	public final boolean isPlayerTired(String playerName) {
 		return isPlayerTired(plugin.getServer().getPlayer(playerName));
+	}
+	/**
+	 * 
+	 * Returns the tired level of a player.
+	 * 
+	 * @param player The Player type variable.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final int getTiredLevel(Player player) {
+		return tiredLevel.get(player.getUniqueId()).intValue();
+	}
+	/**
+	 * 
+	 * Returns the tired level of a player.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final int getTiredLevel(UUID playerUUID) {
+		return getTiredLevel(plugin.getServer().getPlayer(playerUUID));
+	}
+	/**
+	 * 
+	 * Returns the tired level of a player.
+	 * 
+	 * @param playerName The player's name.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 * @deprecated Replaced by {@link #getTiredLevel(Player)} or {@link #getTiredLevel(UUID)}.
+	 * 
+	 */
+	public final int getTiredLevel(String playerName) {
+		return getTiredLevel(plugin.getServer().getPlayer(playerName));
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is in Rest Mode.
+	 * 
+	 * @param player The Player type variable.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final boolean isPlayerAFK(Player player) {
+		if(afkLevel.get(player.getUniqueId()).intValue() >= 300) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is in Rest Mode.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final boolean isPlayerAFK(UUID playerUUID) {
+		return isPlayerAFK(plugin.getServer().getPlayer(playerUUID));
+	}
+	/**
+	 * 
+	 * Returns a boolean type value that can be used
+	 * to determine if the player is in Rest Mode.
+	 * 
+	 * @param playerName The player's name.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 * @deprecated Replaced by {@link #isPlayerTired(Player)} or {@link #isPlayerTired(UUID)}.
+	 * 
+	 */
+	public final boolean isPlayerAFK(String playerName) {
+		return isPlayerAFK(plugin.getServer().getPlayer(playerName));
+	}
+	/**
+	 * 
+	 * Returns the Rest Mode level of a player.
+	 * 
+	 * @param player The Player type variable.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final int getAFKLevel(Player player) {
+		return afkLevel.get(player.getUniqueId()).intValue();
+	}
+	/**
+	 * 
+	 * Returns the Rest Mode level of a player.
+	 * 
+	 * @param playerUUID The player's unique id.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 */
+	public final int getAFKLevel(UUID playerUUID) {
+		return getAFKLevel(plugin.getServer().getPlayer(playerUUID));
+	}
+	/**
+	 * 
+	 * Returns the Rest Mode level of a player.
+	 * 
+	 * @param playerName The player's name.
+	 * 
+	 * @return A boolean type value.
+	 * 
+	 * @deprecated Replaced by {@link #getAFKLevel(Player)} or {@link #getAFKLevel(UUID)}.
+	 * 
+	 */
+	public final int getAFKLevel(String playerName) {
+		return getAFKLevel(plugin.getServer().getPlayer(playerName));
 	}
 }
