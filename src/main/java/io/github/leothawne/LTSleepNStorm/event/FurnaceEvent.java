@@ -20,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -31,24 +30,23 @@ import io.github.leothawne.LTSleepNStorm.item.BottleOfCoffeeItem;
 import io.github.leothawne.LTSleepNStorm.item.WaterWithCoffeeItem;
 
 public class FurnaceEvent implements Listener {
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public static final void onFurnaceSmelt(FurnaceSmeltEvent event) {
 		if(event.getResult().equals(BottleOfCoffeeItem.getItemStack())) {
-			if(!event.getSource().equals(WaterWithCoffeeItem.getItemStack())) {
+			if(event.getSource().equals(WaterWithCoffeeItem.getItemStack()) == false) {
 				event.setCancelled(true);
 			}
 		}
 	}
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public static final void onFurnaceClick(InventoryClickEvent event) {
 		if(event.getInventory().getType().equals(InventoryType.FURNACE)) {
-			if(!event.getClick().equals(null) && (event.getClick().equals(ClickType.LEFT) || event.getClick().equals(ClickType.RIGHT))) {
-				if(event.getSlotType().equals(SlotType.CRAFTING)) {
-					if(event.getAction().equals(InventoryAction.PLACE_ALL) || event.getAction().equals(InventoryAction.PLACE_ONE) || event.getAction().equals(InventoryAction.PLACE_SOME)) {
-						if(event.getCursor().getType().equals(Material.POTION)) {
-							if(!event.getCurrentItem().equals(WaterWithCoffeeItem.getItemStack())) {
-								event.setCancelled(true);
-							}
+			if(event.getSlotType().equals(SlotType.CRAFTING)) {
+				if(event.getAction().equals(InventoryAction.PLACE_ALL) || event.getAction().equals(InventoryAction.PLACE_ONE) || event.getAction().equals(InventoryAction.PLACE_SOME)) {
+					if(event.getCursor().getType().equals(Material.POTION)) {
+						if(event.getCurrentItem().equals(WaterWithCoffeeItem.getItemStack()) == false) {
+							event.setCancelled(true);
+							event.getWhoClicked().sendMessage("no");
 						}
 					}
 				}

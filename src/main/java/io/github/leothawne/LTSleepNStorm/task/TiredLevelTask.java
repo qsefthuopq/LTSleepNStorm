@@ -31,11 +31,13 @@ import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class TiredLevelTask implements Runnable {
 	private static LTSleepNStorm plugin;
+	private static FileConfiguration configuration;
 	private static FileConfiguration language;
 	private static HashMap<UUID, Integer> tiredLevel;
 	private static HashMap<UUID, Integer> afkLevel;
-	public TiredLevelTask(LTSleepNStorm plugin, FileConfiguration language, HashMap<UUID, Integer> tiredLevel, HashMap<UUID, Integer> afkLevel) {
+	public TiredLevelTask(LTSleepNStorm plugin, FileConfiguration configuration, FileConfiguration language, HashMap<UUID, Integer> tiredLevel, HashMap<UUID, Integer> afkLevel) {
 		TiredLevelTask.plugin = plugin;
+		TiredLevelTask.configuration = configuration;
 		TiredLevelTask.language = language;
 		TiredLevelTask.tiredLevel = tiredLevel;
 		TiredLevelTask.afkLevel = afkLevel;
@@ -46,7 +48,7 @@ public class TiredLevelTask implements Runnable {
 			if(player.getGameMode().equals(GameMode.ADVENTURE) || player.getGameMode().equals(GameMode.SURVIVAL)) {
 				if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
 					afkLevel.put(player.getUniqueId(), (afkLevel.get(player.getUniqueId()) + 1));
-					if(afkLevel.get(player.getUniqueId()).intValue() < 300) {
+					if(afkLevel.get(player.getUniqueId()).intValue() < configuration.getInt("auto-restmode")) {
 						tiredLevel.put(player.getUniqueId(), (tiredLevel.get(player.getUniqueId()) + 1));
 						if(tiredLevel.get(player.getUniqueId()).intValue() < 5) {
 							if(player.hasPotionEffect(PotionEffectType.SLOW)) {
@@ -83,7 +85,7 @@ public class TiredLevelTask implements Runnable {
 							}
 						}
 					} else {
-						if(afkLevel.get(player.getUniqueId()).intValue() == 300) {
+						if(afkLevel.get(player.getUniqueId()).intValue() == configuration.getInt("auto-restmode")) {
 							player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-activated"));
 						}
 					}

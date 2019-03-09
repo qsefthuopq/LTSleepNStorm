@@ -90,11 +90,11 @@ public class LTSleepNStorm extends JavaPlugin {
 			getCommand("sleepnstormadmin").setExecutor(new SleepNStormAdminCommand(this, myLogger, configuration, language, tiredLevel));
 			getCommand("sleepnstormadmin").setTabCompleter(new SleepNStormAdminCommandTabCompleter(this, configuration));
 			getCommand("sleep").setExecutor(new SleepCommand(this, myLogger, configuration, language, tiredLevel));
-			getCommand("restmode").setExecutor(new RestModeCommand(myLogger, language, afkLevel));
+			getCommand("restmode").setExecutor(new RestModeCommand(myLogger, configuration, language, afkLevel));
 			scheduler = this.getServer().getScheduler();
-			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, language, tiredLevel, afkLevel), 0, 20 * 1);
+			tiredLevelTask = scheduler.scheduleSyncRepeatingTask(this, new TiredLevelTask(this, configuration, language, tiredLevel, afkLevel), 0, 20 * 1);
 			recipeTask = scheduler.scheduleSyncRepeatingTask(this, new RecipeTask(this), 0, 20 * 10);
-			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, language, tiredLevel, afkLevel), new FurnaceEvent());
+			registerEvents(new AdminEvent(configuration), new BedEvent(this, configuration, language, tiredLevel), new PlayerEvent(this, myLogger, configuration, language, tiredLevel, afkLevel), new FurnaceEvent());
 		} else {
 			myLogger.severe("You choose to disable this plugin.");
 			getServer().getPluginManager().disablePlugin(this);

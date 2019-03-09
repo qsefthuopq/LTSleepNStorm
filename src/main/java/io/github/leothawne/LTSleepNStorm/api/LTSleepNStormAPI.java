@@ -97,27 +97,14 @@ public class LTSleepNStormAPI {
 	}
 	/**
 	 * 
-	 * Returns a FileConfiguration type value that can be used
-	 * to determine the current language used by the plugin.
+	 * Returns the default AFK
+	 * level defined in config.yml.
 	 * 
-	 * @return A FileConfiguration type value.
-	 * 
-	 */
-	public final FileConfiguration getLanguageParameters(){
-		return language;
-	}
-	/**
-	 * 
-	 * Returns a FileConfiguration type value that can be used
-	 * to determine the current language used by the plugin.
-	 * 
-	 * @return A FileConfiguration type value.
-	 * 
-	 * @deprecated Replaced by {@link #getLanguageParameters()}
+	 * @return An Integer type value.
 	 * 
 	 */
-	public final FileConfiguration getLanguageFile(){
-		return getLanguageParameters();
+	public final int getDefaultAFKLevel(){
+		return configuration.getInt("auto-restmode");
 	}
 	/**
 	 * 
@@ -291,10 +278,6 @@ public class LTSleepNStormAPI {
 	public final int getTiredLevel(String playerName) {
 		return getTiredLevel(plugin.getServer().getPlayer(playerName));
 	}
-	
-	
-	
-	
 	/**
 	 * 
 	 * Returns a boolean type value that can be used
@@ -333,7 +316,7 @@ public class LTSleepNStormAPI {
 	 * 
 	 * @return A boolean type value.
 	 * 
-	 * @deprecated Replaced by {@link #isPlayerTired(Player)} or {@link #isPlayerTired(UUID)}.
+	 * @deprecated Replaced by {@link #isPlayerAFK(Player)} or {@link #isPlayerAFK(UUID)}.
 	 * 
 	 */
 	public final boolean isPlayerAFK(String playerName) {

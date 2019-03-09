@@ -30,10 +30,12 @@ import io.github.leothawne.LTSleepNStorm.ConsoleLoader;
 
 public class RestModeCommand implements CommandExecutor {
 	private static ConsoleLoader myLogger;
+	private static FileConfiguration configuration;
 	private static FileConfiguration language;
 	private static HashMap<UUID, Integer> afkLevel;
-	public RestModeCommand(ConsoleLoader myLogger, FileConfiguration language, HashMap<UUID, Integer> afkLevel) {
+	public RestModeCommand(ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, HashMap<UUID, Integer> afkLevel) {
 		RestModeCommand.myLogger = myLogger;
+		RestModeCommand.configuration = configuration;
 		RestModeCommand.language = language;
 		RestModeCommand.afkLevel = afkLevel;
 	}
@@ -42,10 +44,10 @@ public class RestModeCommand implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep")) {
-				if(afkLevel.get(player.getUniqueId()).intValue() < 300) {
-					afkLevel.put(player.getUniqueId(), 300);
+				if(afkLevel.get(player.getUniqueId()).intValue() < configuration.getInt("auto-restmode")) {
+					afkLevel.put(player.getUniqueId(), configuration.getInt("auto-restmode"));
 					player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-activated"));
-				} else if(afkLevel.get(player.getUniqueId()).intValue() >= 150) {
+				} else if(afkLevel.get(player.getUniqueId()).intValue() >= configuration.getInt("auto-restmode")) {
 					afkLevel.put(player.getUniqueId(), 0);
 					player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 				}

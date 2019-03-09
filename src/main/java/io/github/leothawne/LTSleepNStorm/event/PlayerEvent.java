@@ -43,12 +43,14 @@ import io.github.leothawne.LTSleepNStorm.item.BottleOfCoffeeItem;
 public class PlayerEvent implements Listener {
 	private static LTSleepNStorm plugin;
 	private static ConsoleLoader myLogger;
+	private static FileConfiguration configuration;
 	private static FileConfiguration language;
 	private static HashMap<UUID, Integer> tiredLevel;
 	private static HashMap<UUID, Integer> afkLevel;
-	public PlayerEvent(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration language, HashMap<UUID, Integer> tiredLevel, HashMap<UUID, Integer> afkLevel) {
+	public PlayerEvent(LTSleepNStorm plugin, ConsoleLoader myLogger, FileConfiguration configuration, FileConfiguration language, HashMap<UUID, Integer> tiredLevel, HashMap<UUID, Integer> afkLevel) {
 		PlayerEvent.plugin = plugin;
 		PlayerEvent.myLogger = myLogger;
+		PlayerEvent.configuration = configuration;
 		PlayerEvent.language = language;
 		PlayerEvent.tiredLevel = tiredLevel;
 		PlayerEvent.afkLevel = afkLevel;
@@ -72,7 +74,7 @@ public class PlayerEvent implements Listener {
 	public static final void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-			if(afkLevel.get(player.getUniqueId()) >= 300) {
+			if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 			}
 			afkLevel.put(player.getUniqueId(), 0);
@@ -82,7 +84,7 @@ public class PlayerEvent implements Listener {
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-			if(afkLevel.get(player.getUniqueId()) >= 300) {
+			if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 			}
 			afkLevel.put(player.getUniqueId(), 0);
@@ -92,7 +94,7 @@ public class PlayerEvent implements Listener {
 	public static final void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-			if(afkLevel.get(player.getUniqueId()) >= 300) {
+			if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 			}
 			afkLevel.put(player.getUniqueId(), 0);
@@ -102,7 +104,7 @@ public class PlayerEvent implements Listener {
 	public static final void onDropItem(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-			if(afkLevel.get(player.getUniqueId()) >= 300) {
+			if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
 				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 			}
 			afkLevel.put(player.getUniqueId(), 0);
@@ -113,7 +115,7 @@ public class PlayerEvent implements Listener {
 		if(event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-				if(afkLevel.get(player.getUniqueId()) >= 300) {
+				if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
 					player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
 				}
 				afkLevel.put(player.getUniqueId(), 0);
@@ -123,11 +125,13 @@ public class PlayerEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public static final void onTeleport(PlayerTeleportEvent event) {
 		Player player = event.getPlayer();
-		if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
-			if(afkLevel.get(player.getUniqueId()) >= 300) {
-				player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
+		if(player.hasPlayedBefore()) {
+			if(player.hasPermission("LTSleepNStorm.sleep.bypass") == false) {
+				if(afkLevel.get(player.getUniqueId()) >= configuration.getInt("auto-restmode")) {
+					player.sendMessage(ChatColor.AQUA + "[LTSNS] " + ChatColor.YELLOW + "" + language.getString("afk-deactivated"));
+				}
+				afkLevel.put(player.getUniqueId(), 0);
 			}
-			afkLevel.put(player.getUniqueId(), 0);
 		}
 	}
 }

@@ -39,8 +39,17 @@ public class SleepNStormCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.AQUA + "=+=+=+= [LT Sleep N Storm] =+=+=+=");
 				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm " + ChatColor.AQUA + "- Shows all commands for LT Sleep N Storm.");
 				sender.sendMessage(ChatColor.GREEN + "/sleepnstorm version " + ChatColor.AQUA + "- Shows the plugin version.");
+				if(!sender.hasPermission("LTSleepNStorm.sleep.bypass")) {
+					sender.sendMessage(ChatColor.GREEN + "/restmode " + ChatColor.AQUA + "- Toggles your Rest Mode status.");
+				}
+				if(sender.hasPermission("LTSleepNStorm.sleep.command")) {
+					sender.sendMessage(ChatColor.GREEN + "/sleep " + ChatColor.AQUA + "- Makes you sleep anywhere without a bed.");
+				}
 				sender.sendMessage(ChatColor.GREEN + "/sleepnstormadmin " + ChatColor.AQUA + "- Shows the administration commands for LT Sleep N Storm.");
 				sender.sendMessage(ChatColor.YELLOW + "You can also use "+ ChatColor.GREEN + "/sleepnstorm "+ ChatColor.YELLOW + "as "+ ChatColor.GREEN + "/sns"+ ChatColor.YELLOW + ".");
+				if(!sender.hasPermission("LTSleepNStorm.sleep.bypass")) {
+					sender.sendMessage(ChatColor.YELLOW + "You can also use "+ ChatColor.GREEN + "/restmode "+ ChatColor.YELLOW + "as "+ ChatColor.GREEN + "/rm"+ ChatColor.YELLOW + ".");
+				}
 			} else if(args[0].equalsIgnoreCase("version")) {
 				if(args.length < 2) {
 					Version.version(sender);

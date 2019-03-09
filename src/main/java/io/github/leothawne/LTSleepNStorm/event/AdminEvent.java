@@ -28,7 +28,7 @@ public class AdminEvent implements Listener {
 	public AdminEvent(FileConfiguration configuration) {
 		AdminEvent.configuration = configuration;
 	}
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public static final void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = (Player) event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.admin")) {

@@ -13,5 +13,9 @@ update:
 worlds:
     - world
 
+#After this timeout in seconds, the player will be set as "in Rest Mode".
+#The Rest Mode will prevent players from getting tired while AFK.
+auto-restmode: 300
+
 #Do not change this under any circumstances!
-config-version: 1
+config-version: 2

@@ -24,17 +24,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.leothawne.LTSleepNStorm.LTSleepNStorm;
 
 public class WaterWithCoffeeItem {
 	public static final ItemStack getItemStack() {
 		ItemStack item = new ItemStack(getMaterial());
-		PotionMeta meta = (PotionMeta) item.getItemMeta();
-		meta.addCustomEffect(new PotionEffect(PotionEffectType.HUNGER, 20 * 15, 1), true);
+		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(getName());
 		meta.setLore(getLore());
 		item.setItemMeta(meta);

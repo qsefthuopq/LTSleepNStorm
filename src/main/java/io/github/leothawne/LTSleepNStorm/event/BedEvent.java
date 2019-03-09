@@ -51,7 +51,7 @@ public class BedEvent implements Listener {
 		BedEvent.tiredLevel = tiredLevel;
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public static final void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		if(player.hasPermission("LTSleepNStorm.use") && player.hasPermission("LTSleepNStorm.sleep")) {
