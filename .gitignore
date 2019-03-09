@@ -31,3 +31,12 @@ target/classes/io/github/leothawne/LTSleepNStorm/api/utility/HTTP.class
 target/classes/io/github/leothawne/LTSleepNStorm/command/SleepNStormAdminCommand$1.class
 target/classes/io/github/leothawne/LTSleepNStorm/LTSleepNStorm.class
 target/classes/io/github/leothawne/LTSleepNStorm/Version$1.class
+javadoc.xml
+target/classes/io/github/leothawne/LTSleepNStorm/command/RestModeCommand.class
+target/classes/io/github/leothawne/LTSleepNStorm/event/FurnaceEvent.class
+target/classes/io/github/leothawne/LTSleepNStorm/event/PlayerEvent.class
+target/classes/io/github/leothawne/LTSleepNStorm/item/BottleOfCoffeeItem.class
+target/classes/io/github/leothawne/LTSleepNStorm/item/WaterWithCoffeeItem.class
+target/classes/io/github/leothawne/LTSleepNStorm/PlayersFileLoader.class
+target/classes/io/github/leothawne/LTSleepNStorm/task/RecipeTask.class
+target/classes/io/github/leothawne/LTSleepNStorm/task/TiredLevelTask.class
