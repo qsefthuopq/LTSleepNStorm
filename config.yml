@@ -13,7 +13,7 @@ update:
 worlds:
     - world
 
-#After this timeout in seconds, the player will be set as "in Rest Mode".
+#After this timeout in seconds, the player will be set as "in Rest Mode". Default: 300.
 #The Rest Mode will prevent players from getting tired while AFK.
 auto-restmode: 300
 
