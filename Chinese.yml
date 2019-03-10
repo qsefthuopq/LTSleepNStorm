@@ -1,0 +1,21 @@
+no-permission: "你不能这么做! 你没有权限."
+world-not-found: "% 不存在或未被加载."
+world-blocked: "这一世界不在世界列表内."
+world-day-tag: "天数: "
+world-day-reset: "世界已回溯至混沌之时."
+world-night-passed: "% 睡着了并跳过了漫长的夜晚."
+world-storm-passed: "% 睡着了并跳过风暴之夜."
+world-night-storm-passed: "% 睡着了并跳过了漆黑风暴之夜."
+world-environment-error: "你不能在 % 时这么做!"
+player-tma: "参数过多."
+player-error: "你必须是玩家才能这么做."
+nearby-monsters: "附近有怪物, 你现在还不能休息."
+player-not-tired: "你还不困. 你将在 %s 后疲惫."
+player-very-tired: "你十分疲惫! 是时候上床睡觉了."
+player-took-nap: "你打了个盹!"
+bed-obstructed: "床被堵住了!"
+afk-activated: "激活休息模式! 在你做一些事之前你都不会感到疲惫."
+afk-deactivated: "已关闭休息模式!"
+
+#不要更改这个!
+language-version: 2
