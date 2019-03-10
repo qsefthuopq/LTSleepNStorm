@@ -20,9 +20,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class ConsoleLoader {
-	private LTSleepNStorm plugin;
+	private static LTSleepNStorm plugin;
 	public ConsoleLoader(LTSleepNStorm plugin) {
-		this.plugin = plugin;
+		ConsoleLoader.plugin = plugin;
 	}
 	private final ConsoleCommandSender getConsoleSender() {
 		return plugin.getServer().getConsoleSender();
