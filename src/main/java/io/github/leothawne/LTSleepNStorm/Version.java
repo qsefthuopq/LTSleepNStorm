@@ -26,8 +26,8 @@ public class Version {
 	private static final int configFileVersion = 2;
 	private static final int english_languageFileVersion = 2;
 	private static final int portuguese_languageFileVersion = 2;
-	private static final String Plugin_Version = "0.2.0";
-	private static final String Plugin_Date = "09/03/2019 19:13 (BRT)";
+	private static final String Plugin_Version = "0.2.1";
+	private static final String Plugin_Date = "99/99/9999 00:00 (BRT)";
 	private static final String Minecraft_Version = "1.13.x";
 	private static final String Minecraft_Build = "1.13-R0.1-SNAPSHOT";
 	private static final String Java_Version = "8+";
